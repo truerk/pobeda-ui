@@ -1,0 +1,278 @@
+[am-dropdown] {
+    position: relative;
+
+    [am-dropdown-header] {
+        user-select: none;
+    }
+
+    &[active] {
+        [am-dropdown-content] {
+            overflow: visible;
+            animation: inBottomdropdown .05s ease-in-out 1;
+
+            [am-dropdown-wrapper] {
+                opacity: 1;
+            }
+
+            &[direction="bottom"] {
+            }
+
+            &[direction="top"] {
+                animation: inTopdropdown .05s ease-in-out 1;
+            }
+        }
+    }
+
+    &:not([active]) {
+        [am-dropdown-content] {
+            animation: outBottomdropdown .2s ease-in-out 1 forwards;
+
+            &[direction="bottom"] {
+            }
+
+            &[direction="left"] {
+                animation: outLeftdropdown .2s ease-in-out 1 forwards;
+            }
+        }
+    }
+
+    [am-dropdown-content] {
+        position: absolute;
+        left:50%;
+        transform: translateX(-50%);
+        width: 100%;
+        overflow: hidden;
+        z-index: $zIndex-dropdown;
+
+        &::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 12px;
+            background: transparent;
+            position: absolute;
+        }
+
+        // DIRECTION
+        &[direction="bottom"] {
+
+        }
+
+        &[direction="top"] {
+            top: 0;
+
+            [am-dropdown-wrapper] {
+                margin: 0 0 12px 0;
+                bottom: 0;
+                box-shadow: 0px 3px 5px 0 rgba(0, 0, 0, 0.1), 0px 4px 13px 0px rgba(0, 0, 0, 0.1);
+
+                [am-dropdown-arrow] {
+                    top: auto;
+                    bottom: -10px;
+                    transform: translateX(-50%) rotate(180deg);
+
+                    &[align="left"] {
+                        transform: translateX(0) rotate(180deg);
+                        left: 10%;
+                    }
+
+                    &[align="center"] {
+                        transform: translateX(-50%) rotate(180deg);
+                        left: 50%;
+                    }
+
+                    &[align="right"] {
+                        transform: translateX(0) rotate(180deg);
+                        left: auto;
+                        right: 10%;
+                    }
+                }
+            }
+
+            &::before {
+                bottom: 0;
+            }
+        }
+
+
+        // ALIGN BOTTOM
+        &[align="left"]:not([direction]),
+        &[align="left"][direction="bottom"] {
+            left: 0;
+            transform: translate(0, 0);
+
+            [am-dropdown-wrapper] {
+                left: 0;
+                transform: translate(0, 0);
+            }
+        }
+
+        &[align="stretch"]:not([direction]),
+        &[align="stretch"][direction="bottom"] {
+            [am-dropdown-wrapper] {
+                min-width: 100%;
+            }
+        }
+
+        &[align="right"]:not([direction]),
+        &[align="right"][direction="bottom"] {
+            left: auto;
+            right: 0;
+            transform: translate(0, 0);
+
+            [am-dropdown-wrapper] {
+                left: auto;
+                right: 0;
+                transform: translate(0, 0);
+            }
+        }
+
+        // ALIGN TOP
+        &[align="left"][direction="top"]  {
+            left: 0;
+            transform: translate(0, 0);
+
+            [am-dropdown-wrapper] {
+                left: 0;
+                transform: translate(0, 0);
+            }
+        }
+
+        &[align="stretch"][direction="top"] {
+            [am-dropdown-wrapper] {
+                min-width: 100%;
+            }
+        }
+
+        &[align="right"][direction="top"] {
+            left: auto;
+            right: 0;
+            transform: translate(0, 0);
+
+            [am-dropdown-wrapper] {
+                left: auto;
+                right: 0;
+                transform: translate(0, 0);
+            }
+        }
+    }
+
+    [am-dropdown-wrapper] {
+        position: absolute;
+        left:50%;
+        transform: translateX(-50%);
+        z-index:1;
+        padding: 10px;
+        background: #fff;
+        // border: 1px solid #cecece;
+        border-radius: 3px;
+        margin-top: 12px;
+        max-width: calc(100vw - 40px);
+        white-space: normal;
+        opacity: 0;
+        transition: all .2s ease-in-out;
+        border: 0;
+        box-shadow: 0px 3px 5px 0 rgba(0, 0, 0, 0.1), 0px -2px 13px 0px rgba(0, 0, 0, 0.1);
+
+        [am-dropdown-arrow] {
+            // top: -8px;
+            top: -10px;
+            position: absolute;
+            display: block;
+            width: 16px;
+            height: 16px;
+            transform: translateX(-50%);
+            left: 50%;
+            left: 50%;
+            top: -10px;
+            width: 24px;
+            height: 12px;
+            z-index: $zIndex-dropdown;
+
+            &::after,
+            &::before {
+                content: "";
+                position: absolute;
+                display: block;
+                border-color: transparent;
+                border-style: solid;
+                border-width: 0 12px 12px 12px;
+            }
+
+            &::after {
+                top: 0px;
+                // border-width: 0 8px 8px 8px;
+                border-bottom-color: #fff;
+            }
+
+            &::before {
+                top: 0;
+                // border-width: 0 8px 8px 8px;
+                // border-bottom-color: rgba(0,0,0,.25);
+                border-bottom-color: #fff;
+            }
+
+            &[align="left"] {
+                transform: translateX(0);
+                left: 10%;
+            }
+
+            &[align="center"] {
+                transform: translateX(-50%);
+                left: 50%;
+            }
+
+            &[align="right"] {
+                transform: translateX(0);
+                left: auto;
+                right: 10%;
+            }
+        }
+    }
+}
+
+@keyframes inBottomdropdown {
+    0%{
+        bottom: -3px;
+        // opacity: 0.5;
+    }
+    100% {
+        // opacity: 1;
+        bottom: 0;
+    }
+}
+@keyframes outBottomdropdown {
+    0%{
+        margin-top: initial;
+        // opacity: 1;
+        overflow: visible;
+    }
+    100% {
+        // opacity: 0.5;
+        overflow: hidden;
+        margin-top: 3px;
+    }
+}
+
+@keyframes inTopdropdown {
+    0%{
+        top: -3px;
+        // opacity: 0.5;
+    }
+    100% {
+        // opacity: 1;
+        top: 0;
+    }
+}
+@keyframes outTopdropdown {
+    0%{
+        top: 0;
+        // opacity: 1;
+        overflow: visible;
+    }
+    100% {
+        // opacity: 0.5;
+        overflow: hidden;
+        top: -3px;
+    }
+}

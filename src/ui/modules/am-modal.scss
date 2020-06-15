@@ -1,0 +1,197 @@
+[am-modal-overlay] {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 999;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    transition: all .2s ease-in-out;
+    display: none;
+
+    &[active] {
+        display: block;
+        animation: inOverlay .15s ease-in-out 1;
+    }
+
+    &[closing] {
+        animation: outOverlay .15s ease-in-out 1 forwards;
+    }
+
+    &[mobile] {
+        position: static;
+        z-index: 0;
+        animation: none;
+        background: transparent;
+    }
+}
+
+[am-modal] {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -52%);
+    padding: 30px;
+    background: #fff;
+    max-width: calc(100% - 20px);
+    transition: all .3s ease-in-out;
+    border-radius: 3px;
+    display: none;
+
+    &[active] {
+        display: block;
+        animation: inModal .15s ease-in-out 1;
+
+        @media (max-width: $sm) {
+            &[adaptive] {
+                animation: inModalMobile .15s ease-in-out 1;
+            }
+        }
+    }
+
+    &[closing] {
+        animation: outModal .15s ease-in-out 1 forwards;
+
+        @media (max-width: $sm) {
+            &[adaptive] {
+                animation: outModalMobile .15s ease-in-out 1 forwards;
+            }
+        }
+    }
+
+    @media (max-width: $sm) {
+        &[adaptive] {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 0;
+            top: auto;
+            bottom: 0;
+            transform: translate(-50%, 0);
+        }
+    }
+
+    &:not([mobile])[adaptive] {
+        @media (max-width: $sm) {
+            [am-modal-close] {
+                top: 5px;
+                right: 5px;
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+
+    &[mobile] {
+        position: static;
+        z-index: 0;
+        animation: none;
+        transform: none;
+        max-width: 100%;
+        border-radius: 0;
+        padding-right: 0;
+        padding-left: 0;
+        padding-top: 0;
+    }
+
+    &[mobile] [am-modal-close] {
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    &:not([mobile]) [am-modal-close] {
+        display: block;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        background: #fff;
+        box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+        cursor: pointer;
+
+        &::after,
+        &::before {
+            display: inline-block;
+            content: '';
+            border: 1px solid #868685;
+            width: 12px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transition: all .1s ease-in-out;
+        }
+
+        &::after {
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        &::before {
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+        &:hover::after,
+        &:hover::before {
+            border-color: #4C4D4F;
+        }
+    }
+}
+
+[am-modal-content] {
+    // min-width: 300px;
+}
+
+@keyframes inOverlay {
+    0%{
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes outOverlay {
+    0%{
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes inModal {
+    0%{
+        margin-top: -5px;
+    }
+    100% {
+        margin-top: 0px;
+    }
+}
+
+@keyframes outModal {
+    0%{
+        margin-top: 0px;
+    }
+    100% {
+        margin-top: -5px;
+    }
+}
+
+@keyframes inModalMobile {
+    0%{
+        bottom: -10px;
+    }
+    100% {
+        bottom: 0px;
+    }
+}
+
+@keyframes outModalMobile {
+    0%{
+        bottom: 0px;
+    }
+    100% {
+        bottom: -10px;
+    }
+}

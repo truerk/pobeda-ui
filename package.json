@@ -1,0 +1,61 @@
+{
+    "name": "pobeda-components",
+    "version": "0.1.0",
+    "author": "Nickolay Eryomin",
+    "description": "Components for building an interface",
+    "main": "index.js",
+    "scripts": {
+        "sprite": "gulp sprite --gulpfile ./config/gulpfile.js",
+        "build": "webpack --mode production --config ./config/webpack.production.js",
+        "dev": "webpack --mode development --config ./config/webpack.config.js",
+        "watch": "webpack --watch --mode development --config ./config/webpack.config.js",
+        "serve": "webpack-dev-server --config ./config/webpack.config.js && webpack --watch --mode development --config ./config/webpack.config.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/truerk/pobeda-components"
+    },
+    "homepage": "https://github.com/truerk/pobeda-components#readme",
+    "license": "MIT",
+    "browserslist": [
+        "last 7 version",
+        "> 1%",
+        "IE 11"
+    ],
+    "devDependencies": {
+        "@babel/core": "^7.8.7",
+        "@babel/plugin-proposal-class-properties": "^7.8.3",
+        "@babel/plugin-transform-runtime": "^7.8.3",
+        "@babel/preset-env": "^7.8.7",
+        "@babel/preset-react": "^7.8.3",
+        "@babel/runtime": "^7.6.2",
+        "autoprefixer": "^9.7.5",
+        "babel-loader": "^8.0.6",
+        "babel-plugin-transform-runtime": "^6.23.0",
+        "babel-preset-es2015-ie": "^6.7.0",
+        "babel-runtime": "^6.26.0",
+        "clean-webpack-plugin": "^3.0.0",
+        "copy-webpack-plugin": "^6.0.2",
+        "css-loader": "^3.4.2",
+        "cssnano": "^4.1.10",
+        "gulp": "^4.0.2",
+        "gulp-svg-sprite": "^1.5.0",
+        "html-webpack-plugin": "^4.3.0",
+        "mini-css-extract-plugin": "^0.8.2",
+        "node-sass": "^4.12.0",
+        "optimize-css-assets-webpack-plugin": "^5.0.3",
+        "postcss-loader": "^3.0.0",
+        "postcss-sort-media-queries": "^1.4.23",
+        "pug": "^3.0.0",
+        "pug-loader": "^2.4.0",
+        "react": "^16.13.1",
+        "react-dev-utils": "^10.2.1",
+        "react-dom": "^16.13.1",
+        "sass-loader": "^8.0.0",
+        "style-loader": "^1.0.0",
+        "webpack": "^4.41.2",
+        "webpack-cli": "^3.3.10",
+        "webpack-dev-server": "^3.9.0"
+    },
+    "dependencies": {}
+}
