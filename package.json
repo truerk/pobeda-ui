@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "author": "Nickolay Eryomin",
     "description": "Components for building an interface",
-    "main": "index.js",
+    "main": "src/ui/components/index.js",
     "scripts": {
         "sprite": "gulp sprite --gulpfile ./config/gulpfile.js",
         "build": "webpack --mode production --config ./config/webpack.production.js",
