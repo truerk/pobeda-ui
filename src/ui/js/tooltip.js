@@ -1,6 +1,6 @@
-import getCoord from '../methods/getCoord'
+import getCoord from '../utils/getCoord'
 
-export default (function tooltip() {
+export default function tooltip() {
     let active = false;
 
     document.addEventListener('mouseover', (e) => {
@@ -70,4 +70,4 @@ export default (function tooltip() {
             active = false;
         }
     });
-})();
+}

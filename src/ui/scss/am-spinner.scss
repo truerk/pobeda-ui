@@ -2,13 +2,19 @@
 
 *[spinner] {
     position: relative;
-    color: transparent;
+    color: transparent!important;
 
     [am-spinner] {
         position: absolute;
         transform: translateX(-50%) translateY(-50%);
         top: 50%;
         left: 50%;
+    }
+}
+
+[am-button]:not([spinner]) {
+    [am-spinner] {
+        display: none;
     }
 }
 

@@ -1,4 +1,4 @@
-import createElement from '../methods/create_element'
+import createElement from '../utils/create_element'
 
 export class ProgressController {
     constructor(props) {

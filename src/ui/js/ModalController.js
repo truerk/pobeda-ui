@@ -1,73 +1,4 @@
-import createElement from '../methods/create_element'
-
-function extendDefaults(source, properties) {
-    var property;
-    for (property in properties) {
-      if (properties.hasOwnProperty(property)) {
-        source[property] = properties[property];
-      }
-    }
-    return source;
-}
-
-const Utils = {
-    isObject(o) {
-        return typeof o === 'object' && o !== null && o.constructor && o.constructor === Object;
-    },
-    extend(...args) {
-        const to = Object(args[0]);
-        for (let i = 1; i < args.length; i += 1) {
-          const nextSource = args[i];
-          if (nextSource !== undefined && nextSource !== null) {
-            const keysArray = Object.keys(Object(nextSource));
-            for (let nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
-              const nextKey = keysArray[nextIndex];
-              const desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-              if (desc !== undefined && desc.enumerable) {
-                if (Utils.isObject(to[nextKey]) && Utils.isObject(nextSource[nextKey])) {
-                  Utils.extend(to[nextKey], nextSource[nextKey]);
-                } else if (!Utils.isObject(to[nextKey]) && Utils.isObject(nextSource[nextKey])) {
-                  to[nextKey] = {};
-                  Utils.extend(to[nextKey], nextSource[nextKey]);
-                } else {
-                  to[nextKey] = nextSource[nextKey];
-                }
-              }
-            }
-          }
-        }
-        return to;
-    },
-    parseUrlQuery(url) {
-        const query = {};
-        let urlToParse = url || window.location.href;
-        let i;
-        let params;
-        let param;
-        let length;
-        if (typeof urlToParse === 'string' && urlToParse.length) {
-          urlToParse = urlToParse.indexOf('?') > -1 ? urlToParse.replace(/\S*\?/, '') : '';
-          params = urlToParse.split('&').filter((paramsPart) => paramsPart !== '');
-          length = params.length;
-
-          for (i = 0; i < length; i += 1) {
-            param = params[i].replace(/#\S+/g, '').split('=');
-            query[decodeURIComponent(param[0])] = typeof param[1] === 'undefined' ? undefined : decodeURIComponent(param[1]) || '';
-          }
-        }
-        return query;
-    }
-}
-
-// if (arguments[0] && typeof arguments[0] === "object") {
-//     this.options = extendDefaults(defaults, arguments[0]);
-// }
-
-// if (args.length === 1 && args[0].constructor && args[0].constructor === Object) {
-//     params = args[0];
-//   } else {
-//     [el, params] = args;
-//   }
+import createElement from '../utils/create_element'
 
 function whichTransitionEvent(){
     var t,
@@ -337,6 +268,6 @@ export class ModalController{
     }
 }
 
-export default (function modal() {
+export default function modal() {
     new ModalController().bubbleInit()
-})();
+}

@@ -1,5 +1,5 @@
-import createElement from '../methods/create_element'
-import getCoord from '../methods/getCoord'
+import createElement from '../utils/create_element'
+import getCoord from '../utils/getCoord'
 
 let init = false;
 let bubbleInit = false;
@@ -261,6 +261,6 @@ export class SelectController{
     }
 }
 
-export default (function select() {
+export default function select() {
     new SelectController().bubbleInit()
-})();
+}

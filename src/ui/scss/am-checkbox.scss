@@ -2,6 +2,8 @@
 
 [am-checkbox] {
     display: flex;
+    align-items: center;
+    line-height: 1;
     position: relative;
 
     &:not([disabled]):hover {
@@ -45,7 +47,6 @@
         vertical-align: middle;
         position: relative;
         flex-shrink: 0;
-        top: 2px;
         background: #fff;
         transition: all .1s ease-in-out;
 
@@ -53,7 +54,7 @@
             content: "";
             position: absolute;
             display: block;
-            right: 4.5px;
+            right: 5px;
             top: 1px;
             width: 4px;
             height: 8px;

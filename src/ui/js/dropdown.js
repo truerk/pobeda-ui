@@ -1,6 +1,6 @@
-import getCoord from '../methods/getCoord'
+import getCoord from '../utils/getCoord'
 
-export default (function dropdown() {
+export default function dropdown() {
     document.addEventListener('click', (e) => {
         const dropdowns = document.querySelectorAll('[am-dropdown]')
 
@@ -55,4 +55,4 @@ export default (function dropdown() {
             });
         }
     });
-})();
+}

@@ -1,5 +1,5 @@
-import {ProgressController} from '../ui/components/ProgressController'
-
+import {ProgressController, select} from '../ui/js/index'
+select()
 const progress = new ProgressController({
     name: 'progress',
     type: 'ring',
