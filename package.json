@@ -1,5 +1,5 @@
 {
-    "name": "pobeda-components",
+    "name": "pobeda-ui",
     "version": "0.1.0",
     "author": "Nickolay Eryomin",
     "description": "Components for building an interface",
@@ -13,9 +13,9 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/truerk/pobeda-components"
+        "url": "git+https://github.com/truerk/pobeda-ui"
     },
-    "homepage": "https://github.com/truerk/pobeda-components#readme",
+    "homepage": "https://github.com/truerk/pobeda-ui#readme",
     "license": "MIT",
     "browserslist": [
         "last 7 version",
