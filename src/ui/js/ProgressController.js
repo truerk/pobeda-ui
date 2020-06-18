@@ -1,4 +1,4 @@
-import createElement from '../utils/create_element'
+import utils from '../utils/utils'
 
 export class ProgressController {
     constructor(props) {
@@ -26,38 +26,8 @@ export class ProgressController {
             ringColor: '#A3A2A1'
         }
 
-        if (typeof this.props === 'object') {
-            this.state = {
-                ...this.state,
-                progress: this.props.progress ? this.props.progress : this.state.progress,
-                progressPercent: this.props.progressPercent ? this.props.progressPercent : this.state.progressPercent,
-                progressBar: this.props.progressBar ? this.props.progressBar : this.state.progressBar,
-                percent: this.props.percent ? this.props.percent : this.state.percent,
-                name: this.props.name ? this.props.name : this.state.name,
-                height: this.props.height ? this.props.height : this.state.height,
-                type: this.props.type ? this.props.type : this.state.type,
 
-                ring: this.props.ring ? this.props.ring : this.state.ring,
-                ringFill: this.props.ringFill ? this.props.ringFill : this.state.ringFill,
-                ringCircle: this.props.ringCircle ? this.props.ringCircle : this.state.ringCircle,
-                ringWidth: this.props.ringWidth ? this.props.ringWidth : this.state.ringWidth,
-                ringRadius: this.props.ringRadius ? this.props.ringRadius : this.state.ringRadius,
-                ringColor: this.props.ringColor ? this.props.ringColor : this.state.ringColor,
-                ringFillColor: this.props.ringFillColor ? this.props.ringFillColor : this.state.ringFillColor,
-            }
-
-            if ('progressTag' in this.props && typeof this.props.progressTag === 'object') {
-                this.state.progressTag = this.props.progressTag
-            }
-
-            if ('progressPercentTag' in this.props && typeof this.props.progressPercentTag === 'object') {
-                this.state.progressPercentTag = this.props.progressPercentTag
-            }
-
-            if ('progressBarTag' in this.props && typeof this.props.progressBarTag === 'object') {
-                this.state.progressBarTag = this.props.progressBarTag
-            }
-        }
+        this.state = utils.object.extend(this.state, this.props)
 
         this.init()
     }
@@ -130,9 +100,9 @@ export class ProgressController {
 
     build() {
         if (this.state.type === 'line') {
-            const progressBar = createElement('div', {'am-progress-bar': '', 'style': `width:${this.state.percent}%`, ...this.state.progressBarTag});
-            const progressPercent = createElement('span', {'am-progress-percent': '', ...this.state.progressPercentTag}, [], `${this.state.percent}%`);
-            const progress = createElement('div', {'am-progress': this.state.name, 'data-percent': this.state.percent, ...this.state.progressTag}, [progressPercent, progressBar]);
+            const progressBar = utils.element.create('div', {'am-progress-bar': '', 'style': `width:${this.state.percent}%`, ...this.state.progressBarTag});
+            const progressPercent = utils.element.create('span', {'am-progress-percent': '', ...this.state.progressPercentTag}, [], `${this.state.percent}%`);
+            const progress = utils.element.create('div', {'am-progress': this.state.name, 'data-percent': this.state.percent, ...this.state.progressTag}, [progressPercent, progressBar]);
 
             this.state.progress = progress;
             this.state.progressBar = progressBar;
@@ -144,7 +114,7 @@ export class ProgressController {
             const circumference = normalizedRadius * 2 * Math.PI;
             const offset = circumference - (this.state.percent / 100 * circumference);
 
-            const circle = createElement('circle', {
+            const circle = utils.element.create('circle', {
                 stroke: this.state.ringColor,
                 'stroke-dasharray': circumference,
                 style: `stroke-dashoffset: ${offset}`,
@@ -155,7 +125,7 @@ export class ProgressController {
                 cy: this.state.ringRadius,
             }, [], false, 'http://www.w3.org/2000/svg');
 
-            const circleFill = createElement('circle', {
+            const circleFill = utils.element.create('circle', {
                 stroke: this.state.ringFillColor,
                 'stroke-dasharray': circumference,
                 style: `stroke-dashoffset: 0`,
@@ -166,7 +136,7 @@ export class ProgressController {
                 cy: this.state.ringRadius,
             }, [], false, 'http://www.w3.org/2000/svg');
 
-            const svg = createElement('svg', {'am-progress-ring': this.state.name, width: this.state.ringRadius * 2, height: this.state.ringRadius * 2}, [circleFill, circle], false, 'http://www.w3.org/2000/svg');
+            const svg = utils.element.create('svg', {'am-progress-ring': this.state.name, width: this.state.ringRadius * 2, height: this.state.ringRadius * 2}, [circleFill, circle], false, 'http://www.w3.org/2000/svg');
 
             this.state.ring = svg;
             this.state.ringCircle = circle;
@@ -174,7 +144,7 @@ export class ProgressController {
 
             return svg;
         }
-        return createElement('div', {hidden: true});
+        return utils.element.create('div', {hidden: true});
     }
 
     setPercent(value) {

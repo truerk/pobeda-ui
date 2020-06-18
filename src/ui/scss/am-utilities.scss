@@ -1,9 +1,9 @@
 @import '../variables.scss';
 
-//ALSRubl
-[am-rubl] {
-    font-family: ALSRubl;
-}
+// ALSRubl
+// [am-rubl] {
+//     font-family: ALSRubl;
+// }
 
 //VISIBILITY
 [hidden] {display: none!important;}
@@ -14,12 +14,6 @@
 
 //MEDIA
 @media (max-width: $lg) {
-    @for $i from 1 through 60 {
-        [order-lg="#{$i}"] {
-            order: #{$i};
-        }
-    }
-
     [hidden-lg] {display: none!important;}
     [visible-lg] {display: initial!important;}
     [visible-lg="block"] {display: block!important;}
@@ -28,12 +22,6 @@
 }
 
 @media (max-width: $md) {
-    @for $i from 1 through 60 {
-        [order-md="#{$i}"] {
-            order: #{$i};
-        }
-    }
-
     [hidden-md] {display: none!important;}
     [visible-md] {display: initial!important;}
     [visible-md="block"] {display: block!important;}
@@ -42,12 +30,6 @@
 }
 
 @media (max-width: $sm) {
-    @for $i from 1 through 60 {
-        [order-sm="#{$i}"] {
-            order: #{$i};
-        }
-    }
-
     [hidden-sm] {display: none!important;}
     [visible-sm] {display: initial!important;}
     [visible-sm="block"] {display: block!important;}

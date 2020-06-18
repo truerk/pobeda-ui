@@ -1,47 +1,11 @@
-import createElement from '../utils/create_element'
-
-function whichTransitionEvent(){
-    var t,
-        el = document.createElement("fakeelement");
-
-    var transitions = {
-      "transition"      : "transitionend",
-      "OTransition"     : "oTransitionEnd",
-      "MozTransition"   : "transitionend",
-      "WebkitTransition": "webkitTransitionEnd"
-    }
-
-    for (t in transitions){
-      if (el.style[t] !== undefined){
-        return transitions[t];
-      }
-    }
-  }
-
-function whichAnimationEvent(){
-    var t,
-        el = document.createElement("fakeelement");
-
-    var animations = {
-      "animation"      : "animationend",
-      "OAnimation"     : "oAnimationEnd",
-      "MozAnimation"   : "animationend",
-      "WebkitAnimation": "webkitAnimationEnd"
-    }
-
-    for (t in animations){
-      if (el.style[t] !== undefined){
-        return animations[t];
-      }
-    }
-}
+import utils from '../utils/utils'
 
 export class ModalController{
     constructor(props) {
         this.props = props
 
-        this.transitionEnd = whichTransitionEvent()
-        this.animationEnd = whichAnimationEvent()
+        this.transitionEnd = utils.event.transitionEnd()
+        this.animationEnd = utils.event.transitionEnd()
 
         this.state = {
             wrapper: document.querySelector('body'),
@@ -63,54 +27,13 @@ export class ModalController{
             onDestroy: () => {}
         }
 
-        if (typeof this.props === 'object') {
-            this.state = {
-                ...this.state,
-                wrapper: this.props.wrapper ? this.props.wrapper : this.state.wrapper,
-                children: this.props.children ? this.props.children : false,
-                modalClose: this.props.modalClose ? this.props.modalClose : false,
-            }
 
-            if ('options' in this.props) {
-                if ('adaptive' in this.props.options) {
-                    this.state.options.adaptive = this.props.options.adaptive;
-                }
+        this.state = utils.object.extend(this.state, this.props)
 
-                if ('mobile' in this.props.options) {
-                    this.state.options.mobile = this.props.options.mobile;
-                }
-
-                if ('modalName' in this.props.options) {
-                    this.state.options.modalName = this.props.options.modalName ? this.props.options.modalName : '';
-                }
-
-                if ('modalTag' in this.props.options && typeof this.props.options.modalTag === 'object') {
-                    this.state.options.modalTag = this.props.options.modalTag ? this.props.options.modalTag : '';
-                }
-
-                if ('modalCloseTag' in this.props.options && typeof this.props.options.modalCloseTag === 'object') {
-                    this.state.options.modalCloseTag = this.props.options.modalCloseTag ? this.props.options.modalCloseTag : '';
-                }
-
-                if ('modalContentTag' in this.props.options && typeof this.props.options.modalContentTag === 'object') {
-                    this.state.options.modalContentTag = this.props.options.modalContentTag ? this.props.options.modalContentTag : '';
-                }
-            }
-
-            if ('onRender' in this.props && typeof this.props.onRender === 'function') {
-               this.state.onRender = this.props.onRender;
-            }
-
-            if ('onDestroy' in this.props && typeof this.props.onDestroy === 'function') {
-                this.state.onDestroy = this.props.onDestroy;
-            }
-
-            if ('modal' in this.props && typeof this.props.modal === 'object') {
-                this.state.modal = this.props.modal
-                this.init()
-            } else {
-                this.build()
-            }
+        if (this.state.modal) {
+            this.init()
+        } else {
+            this.build()
         }
     }
 
@@ -141,11 +64,11 @@ export class ModalController{
     }
 
     build() {
-        const modalClose = createElement('div', {'am-modal-close': '', ...this.state.options.modalCloseTag}, this.state.modalClose.length > 0 ? this.state.modalClose: []);
-        const modalContent = createElement('div', {
+        const modalClose = utils.element.create('div', {'am-modal-close': '', ...this.state.options.modalCloseTag}, this.state.modalClose.length > 0 ? this.state.modalClose: []);
+        const modalContent = utils.element.create('div', {
             'am-modal-content': '', ...this.state.options.modalContentTag}, this.state.children.length > 0 ? this.state.children: []);
 
-        const modal = createElement('div', {
+        const modal = utils.element.create('div', {
             'am-modal': this.state.options.modalName,
             'build': '',
             [this.state.options.adaptive && !this.state.options.mobile ? 'adaptive' : '']: '',
@@ -153,7 +76,7 @@ export class ModalController{
             ...this.state.options.modalTag
         }, [modalClose, modalContent]);
 
-        const overlay = createElement('div', {
+        const overlay = utils.element.create('div', {
             'am-modal-overlay': this.state.options.modalName,
             [this.state.options.mobile ? 'mobile' : '']: '',
         }, [modal]);
@@ -195,11 +118,11 @@ export class ModalController{
         }
 
         this.state.modal.addEventListener(this.transitionEnd, () => {
-            this.state.overlay.removeAttribute('closing', '');
-            this.state.modal.removeAttribute('closing', '');
+            this.state.overlay.removeAttribute('closing');
+            this.state.modal.removeAttribute('closing');
 
-            this.state.overlay.removeAttribute('active', '');
-            this.state.modal.removeAttribute('active', '');
+            this.state.overlay.removeAttribute('active');
+            this.state.modal.removeAttribute('active');
 
             this.state.overlay.remove();
             this.state.onDestroy();
@@ -300,6 +223,6 @@ export class ModalController{
     }
 }
 
-export default function modal() {
+export function modal() {
     new ModalController().bubbleInit()
 }

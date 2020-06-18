@@ -35,8 +35,8 @@ module.exports = {
         // splitChunks: {
         //     cacheGroups: {
         //         vendor: {
-        //             name: 'pobeda-components',
-        //             test: /[\\/]pobeda-components[\\/]/,
+        //             name: 'pobeda-ui',
+        //             test: /[\\/]pobeda-ui[\\/]/,
         //             chunks: 'all',
         //             enforce: true
         //         }

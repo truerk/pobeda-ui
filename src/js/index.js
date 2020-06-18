@@ -1,40 +1,81 @@
-import {dropdown, tooltip, select, modal, ModalController, SelectController, ProgressController} from '../ui/js/index'
-import createElement from '../ui/utils/create_element'
+import {dropdown, tooltip, select, modal, ModalController, SelectController, ProgressController, DropdownController} from '../ui/js/index'
+import utils from '../ui/utils/utils'
 
-select()
-dropdown()
 tooltip()
+dropdown()
+select()
 modal()
 
-const back = createElement('span', {}, [], 'Назад');
-const back1 = createElement('span', {}, [], 'Назад');
-const title = createElement('div', {'am-modal-title': ''}, [], 'render_modal-title');
-const input = createElement('div', {'am-input': ''}, [
-    createElement('input', {'type': 'text', 'value': ''}, [])
-]);
-const btn = createElement('div', {'am-button': 'main'}, [], 'render_modal-button');
+
+const drop = new DropdownController({
+    dropdownTags: {
+        name: 'dropdown-default'
+    },
+    options: {
+        asd: {
+            dsa: 'asd'
+        },
+        name: 'asd'
+    },
+    dropdown:'asd'
+})
+
+drop.init()
+
+
+const ring = new ProgressController({
+    name: 'ring',
+    type: 'ring',
+    percent: 75,
+    ringRadius: 30,
+    ringColor: 'red',
+})
+
+
+const customSelect = new SelectController({
+    name: 'selectBuild',
+    options: [
+        {value: 0, label: 'Все города'},
+        {value: 1, label: 'Москва'},
+        {value: 2, label: 'Самара'},
+        {value: 3, label: 'Тольятти'},
+        {value: 4, label: 'Казань'},
+        {value: 5, label: 'Сызрань'},
+    ],
+    placeholder: 'Выберите город',
+    placeholderOption: 'Список пуст',
+    onChange: (option) => {
+        console.log(option);
+
+    }
+});
+
 
 const progress = new ProgressController({
-    progress: document.querySelector('[am-progress]'),
-    percent: 10,
+    name: 'progress',
+    percent: 25,
     progressTag: {
         tag1: 'value1',
         tag2: 'value2',
     }
 });
 
+const customSelect1 = new SelectController({
+    selectTags: {
+        name: 'customSelect1'
+    },
+    divSelect: document.querySelector('[am-select]'),
+    onChange: (option) => {
+        console.log(option);
+    }
+});
 
 const modal1 = new ModalController({
     wrapper: document.querySelector('[am-container]'),
-    children: [
-        title,
-        input,
-        btn
-    ],
-    modalClose: [back1],
+    content: [],
     options: {
         adaptive: true,
-        mobile: true,
+        mobile: false,
         modalTag: {
             'class': 'modal'
         },
@@ -44,61 +85,26 @@ const modal1 = new ModalController({
         modalContentTag: {
             'class': 'modal_content'
         }
+    },
+    onDestroy: () => {
+        console.log('destroy modal1');
+
     }
 })
 
-const btnModal = document.querySelector('[am-modal-target="modal_bubble"]')
-
-const modalDefault = new ModalController({
-    wrapper: document.querySelector('[am-modal="modal_bubble"]').parentNode.parentNode,
+const modal11 = new ModalController({
+    wrapper: document.querySelector('[am-container]'),
     modal: document.querySelector('[am-modal="modal_bubble"]'),
-    options: {
-        mobile: true,
-    },
-    modalClose: [back],
-    onRender: () => {console.log('onRender');
-    },
-    onDestroy: () => {console.log('onDestroy');}
-})
-
-btnModal.addEventListener('click', () => {
-    modalDefault.render()
-})
-
-const customSelect = new SelectController({
-    name: 'selectBuild',
-    options: [
-        {value: 0, label: '1'},
-        {value: 1, label: '2'},
-        {value: 2, label: '3'},
-        {value: 3, label: '4'},
-        {value: 4, label: '5'},
-        {value: 5, label: '6'},
-        {value: 5, label: '7'},
-        {value: 5, label: '8'},
-    ],
-    placeholder: 'Выберите город',
-    placeholderOption: 'Список пуст',
-    onChange: (option) => {
-
+    onDestroy: () => {
+        console.log('destroy modal11');
     }
-});
-
-const select1 = customSelect.build();
-document.querySelector('[am-container]').append(select1)
-document.querySelector('#modal').addEventListener('click', (e) => {
-    modal1.render()
 })
 
-btn.addEventListener('click', (e) => {
-    modal1.destroy(e, true)
-})
+// modal1.render()
+// modal11.render()
 
-const inputCity = document.querySelector('[am-input="city"]')
 
-const customSelect1 = new SelectController({
-    divSelect: inputCity,
-    onChange: (option) => {
+document.querySelector('[am-container]').appendChild(customSelect.build())
+document.querySelector('[am-container]').appendChild(progress.build())
 
-    }
-});
+

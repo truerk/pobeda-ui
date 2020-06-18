@@ -1,5 +1,4 @@
-import createElement from '../utils/create_element'
-import getCoord from '../utils/getCoord'
+import utils from '../utils/utils'
 
 let init = false;
 let bubbleInit = false;
@@ -35,57 +34,11 @@ export class SelectController{
             onDestroy: () => {},
         }
 
-        if (typeof this.props === 'object') {
-            this.state = {
-                ...this.state,
-                name: this.props.name ? this.props.name : this.state.name,
-                placeholder: this.props.placeholder ? this.props.placeholder : this.state.placeholder,
-                placeholderOption: this.props.placeholderOption ? this.props.placeholderOption : this.state.placeholderOption,
-            }
+        this.state = utils.object.extend(this.state, this.props)
 
-            if ('options' in this.props && typeof this.props.options === 'object') {
-                this.state.options = this.props.options.length > 0 ? this.props.options : this.state.option
-            }
-
-            if ('divSelect' in this.props) {
-                this.state.divSelect = this.props.divSelect ? this.props.divSelect : this.state.divSelect
-                this.initSelect()
-            }
-
-            if ('value' in this.props && typeof this.props.value === 'object') {
-                this.state.value = this.props.value
-            }
-
-            if ('selectTags' in this.props && typeof this.props.selectTags === 'object') {
-                this.state.selectTags = this.props.selectTags
-            }
-
-            if ('valueTags' in this.props && typeof this.props.valueTags === 'object') {
-                this.state.valueTags = this.props.valueTags
-            }
-
-            if ('optionsTags' in this.props && typeof this.props.optionsTags === 'object') {
-                this.state.optionsTags = this.props.optionsTags
-            }
-
-            if ('optionTags' in this.props && typeof this.props.optionTags === 'object') {
-                this.state.optionTags = this.props.optionTags
-            }
-
-            if ('onRender' in this.props && typeof this.props.onRender === 'function') {
-                this.state.onRender = this.props.onRender
-            }
-
-            if ('onDestroy' in this.props && typeof this.props.onDestroy === 'function') {
-                this.state.onDestroy = this.props.onDestroy
-            }
-
-            if ('onChange' in this.props && typeof this.props.onChange === 'function') {
-                this.state.onChange = this.props.onChange
-            }
+        if (this.state.divSelect) {
+            this.initSelect()
         }
-
-
     }
 
     init() {
@@ -146,7 +99,7 @@ export class SelectController{
         let value, input;
 
         const optionsArray = this.state.options.length > 0 ? this.state.options.map(item => {
-            const option = createElement('div', {'am-select-option': item.value, 'tabindex': '0', ...this.state.optionTags}, [], item.label);
+            const option = utils.element.create('div', {'am-select-option': item.value, 'tabindex': '0', ...this.state.optionTags}, [], item.label);
             option.addEventListener('click', (e)=> {
                 e.preventDefault();
                 if ((item.value || item.value === 0) && !option.hasAttribute('selected')) {
@@ -154,23 +107,23 @@ export class SelectController{
                 }
             })
             return option;
-        }) : this.state.placeholderOption ? [createElement('div', {'am-select-option': '', ...this.state.optionTags}, [], this.state.placeholderOption)] : '';
+        }) : this.state.placeholderOption ? [utils.element.create('div', {'am-select-option': '', ...this.state.optionTags}, [], this.state.placeholderOption)] : '';
 
-        const options = createElement('div', {'am-select-options': '', ...this.state.optionsTags}, optionsArray);
-        const wrapper = createElement('div', {'am-select-wrapper': '', ...this.state.optionTags}, [options]);
+        const options = utils.element.create('div', {'am-select-options': '', ...this.state.optionsTags}, optionsArray);
+        const wrapper = utils.element.create('div', {'am-select-wrapper': '', ...this.state.optionTags}, [options]);
         if (this.state.placeholder) {
-            value = createElement('div', {'am-select-value': ''}, [], this.state.placeholder);
-            input = createElement('input', {'am-select-input': '', 'value': '', 'name': this.state.name, 'type': 'hidden'});
+            value = utils.element.create('div', {'am-select-value': ''}, [], this.state.placeholder);
+            input = utils.element.create('input', {'am-select-input': '', 'value': '', 'name': this.state.name, 'type': 'hidden'});
         } else {
             if (this.state.options.length > 0) {
                 optionsArray[0].setAttribute('selected', '');
 
                 this.state.onChange({value: this.state.options[0].value, label: this.state.options[0].label});
             }
-            value = createElement('div', {'am-select-value': this.state.options.length > 0 ? this.state.options[0].value : ''}, [], this.state.options.length > 0 ? this.state.options[0].label : this.state.placeholder);
-            input = createElement('input', {'am-select-input': '', 'value': this.state.options.length > 0 ? this.state.options[0].value : '', 'name': this.state.name, 'type': 'hidden'});
+            value = utils.element.create('div', {'am-select-value': this.state.options.length > 0 ? this.state.options[0].value : ''}, [], this.state.options.length > 0 ? this.state.options[0].label : this.state.placeholder);
+            input = utils.element.create('input', {'am-select-input': '', 'value': this.state.options.length > 0 ? this.state.options[0].value : '', 'name': this.state.name, 'type': 'hidden'});
         }
-        const select = createElement('div', {'am-select': this.state.name, ...this.state.selectTags, 'build': ''}, [input, value, wrapper]);
+        const select = utils.element.create('div', {'am-select': this.state.name, ...this.state.selectTags, 'build': ''}, [input, value, wrapper]);
 
         this.state.divSelect = select;
         this.state.divInput = input;
@@ -188,7 +141,7 @@ export class SelectController{
     }
 
     render(e) {
-        const coord = getCoord(this.state.divOptions);
+        const coord = utils.element.coord(this.state.divOptions);
 
         this.state.divOptions.removeAttribute('reverse')
         if ((coord.clientHeight - coord.bottom) <= 5 && (coord.top - coord.height) > 50 && !this.state.divSelect.hasAttribute('active')) {
@@ -309,7 +262,7 @@ export class SelectController{
     bubbleRender(e) {
         const select = e.target.closest('[am-select]');
         const selectOptions = select.querySelector('[am-select-options]');
-        const coord = getCoord(selectOptions);
+        const coord = utils.element.coord(selectOptions);
 
         selectOptions.removeAttribute('reverse')
         if ((coord.clientHeight - coord.bottom) <= 5 && (coord.top - coord.height) > 50 && !select.hasAttribute('active')) {
@@ -356,6 +309,6 @@ export class SelectController{
     }
 }
 
-export default function select() {
+export function select() {
     new SelectController().bubbleInit()
 }

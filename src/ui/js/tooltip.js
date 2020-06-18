@@ -1,6 +1,6 @@
-import getCoord from '../utils/getCoord'
+import utils from '../utils/utils'
 
-export default function tooltip() {
+export function tooltip() {
     let active = false;
 
     document.addEventListener('mouseover', (e) => {
@@ -12,12 +12,12 @@ export default function tooltip() {
             const tooltipWrapper= tooltip.querySelector('[am-tooltip-wrapper]');
             active = true;
 
-            let coord = getCoord(tooltipWrapper);
+            let coord = utils.element.coord(tooltipWrapper);
 
             if (!tooltip.hasAttribute('active')) {
                 if (tooltipContent.hasAttribute('direction-old')) {
                     tooltipContent.setAttribute('direction', tooltipContent.getAttribute('direction-old'))
-                    coord = getCoord(tooltipWrapper);
+                    coord = utils.element.coord(tooltipWrapper);
                 }
 
                 if (tooltipContent.getAttribute('direction') === 'left') {

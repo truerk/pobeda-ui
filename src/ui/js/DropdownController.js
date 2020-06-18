@@ -1,6 +1,56 @@
-import getCoord from '../utils/getCoord'
+import utils from '../utils/utils'
 
-export default function dropdown() {
+export class DropdownController {
+    constructor(props){
+        this.props = props
+
+        this.state = {
+            dropdown: null,
+            dropdownHeader: null,
+            dropdownContent: null,
+            dropdownWrapper: null,
+
+            dropdownTags: {},
+            headerTags: {},
+            contentTags: {},
+            wrapperTags: {},
+            arrowTags: {},
+
+            children: [],
+
+            init: false,
+            render: false,
+            build: false,
+
+            onRender: () =>{},
+            onDestroy: () =>{}
+        }
+
+        this.state = utils.object.extend(this.state, this.props)
+
+        if (this.state.dropdown) {
+            this.init()
+        }
+    }
+
+    init() {
+        this.state.init = true
+    }
+
+    build() {
+        this.state.build = true
+    }
+
+    render() {
+        this.state.render = true
+    }
+
+    destroy() {
+        this.state.render = false
+    }
+}
+
+export function dropdown() {
     document.addEventListener('click', (e) => {
         const dropdowns = document.querySelectorAll('[am-dropdown]')
 
@@ -8,12 +58,12 @@ export default function dropdown() {
             const dropdown = e.target.closest('[am-dropdown]');
             const dropdownContent = dropdown.querySelector('[am-dropdown-content]');
             const dropdownWrapper= dropdown.querySelector('[am-dropdown-wrapper]');
-            let coord = getCoord(dropdownWrapper);
+            let coord = utils.element.coord(dropdownWrapper);
 
             if (!dropdown.hasAttribute('active')) {
                 if (dropdownContent.hasAttribute('direction-old')) {
                     dropdownContent.setAttribute('direction', dropdownContent.getAttribute('direction-old'))
-                    coord = getCoord(dropdownWrapper);
+                    coord = utils.element.coord(dropdownWrapper);
                 }
 
                 if (dropdownContent.getAttribute('direction') === 'left') {
