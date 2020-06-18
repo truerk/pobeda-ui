@@ -12,139 +12,369 @@
 </head>
 
 <body>
+    <div am-modal-overlay>
+        <div am-modal="modal_bubble" adaptive>
+            <div am-modal-close></div>
+            <div am-modal-content>
+                modal_bubble-content
+            </div>
+        </div>
+    </div>
+
+    <button am-button="" am-modal-target="modal_bubble">Обычная модалка (bubble)</button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <div am-container="">
+        <button id="modal">modal</button>
 
-        <div id="app"></div>
-
-        <button id="add">+</button>
-        <button id="remove">-</button>
-
-        <form am-form="evaluation">
-            <h2 class="evaluationForm_header">Заявка на оценку</h2>
-
-            <div class="evaluationForm">
-                <h3 class="evaluationForm_title">Ваши данные</h3>
-                <div class="evaluationForm_hr"></div>
-                <div am-form-field="phone">
-                    <div am-input="phone">
-                        <div am-hint="top">Номер телефон <span am-required="">*</span></div>
-                        <div am-input-group>
-                            <div am-check></div>
-                            <input name="phone" placeholder="+7 (900) 000-0000" type="text" autocomplete="off">
-                        </div>
-                        <div am-hint="bottom">С вами свяжется наш менеджер</div>
-                    </div>
-
-                    <div am-input="name">
-                        <div am-hint="top">Ваше имя</div>
-                        <div am-input-group>
-                            <div am-check></div>
-                            <input name="name" type="text" autocomplete="off">
-                        </div>
+        <form am-form="news">
+            <div am-form-field width="100">
+                <div am-input="fio">
+                    <div am-hint="top">Фамилия</div>
+                    <div am-input-group>
+                        <div am-check></div>
+                        <input name="fio" type="text" placeholder="Фамилия" autocomplete="off">
                     </div>
                 </div>
 
-                <div am-form-field>
-                    <div am-select="city" am-input="city">
-                        <input am-select-input type="hidden" name="city" value="">
-                        <div am-select-value="">Все города</div>
-                        <div am-select-wrapper>
-                            <div am-select-options>
-                                <div am-select-option="1">asdasd</div>
-                                <div am-select-option="2">asdasd</div>
-                                <div am-select-option="3">asdasd</div>
-                                <div am-select-option="4">asdasd</div>
+                <div am-input="name">
+                    <div am-hint="top">Имя <span am-required="">*</span></div>
+                    <div am-input-group>
+                        <div am-check></div>
+                        <input name="name" type="text" placeholder="Имя" autocomplete="off">
+                    </div>
+                </div>
+
+                <div am-input="patronymic">
+                    <div am-hint="top">Отчество</div>
+                    <div am-input-group>
+                        <div am-check></div>
+                        <input name="patronymic" type="text" placeholder="Отчество" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+
+            <div am-form-field width="auto">
+                <div am-input="phone">
+                    <div am-hint="top">Телефон <span am-required="">*</span></div>
+                    <div am-input-group>
+                        <div am-check></div>
+                        <input name="phone" placeholder="+7 (900) 000-0000" type="text" autocomplete="off">
+                    </div>
+                </div>
+
+                <div am-input="email">
+                    <div am-hint="top">Email</div>
+                    <div am-input-group>
+                        <div am-check></div>
+                        <input name="email" type="text" placeholder="" autocomplete="off" disabled>
+                    </div>
+                </div>
+            </div>
+            <div am-progress data-percent="50">
+                <span am-progress-percent>50%</span>
+                <div am-progress-bar style="width:50%;"></div>
+            </div>
+            <div am-form-field width="auto">
+                <div am-select am-input="city">
+                    <input am-select-input type="hidden" name="city" value="0">
+                    <div am-select-value="">Ваш город</div>
+                    <div am-select-wrapper>
+                        <div am-select-options>
+                            <div am-select-option="0">Все города</div>
+                            <div am-select-option="1">Москва</div>
+                            <div am-select-option="2">Самара</div>
+                            <div am-select-option="3">Тольятти</div>
+                            <div am-select-option="4">Казань</div>
+                            <div am-select-option="5">Сызрань</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div am-form-field width="auto">
+                <div am-select am-input="city" disabled>
+                    <input am-select-input type="hidden" name="city" value="0">
+                    <div am-select-value="">Ваш город</div>
+                    <div am-select-wrapper>
+                        <div am-select-options>
+                            <div am-select-option="0">Все города</div>
+                            <div am-select-option="1">Москва</div>
+                            <div am-select-option="2">Самара</div>
+                            <div am-select-option="3">Тольятти</div>
+                            <div am-select-option="4">Казань</div>
+                            <div am-select-option="5">Сызрань</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div am-form-field width="auto">
+                <div am-select am-input="city">
+                    <input am-select-input type="hidden" name="city" value="0">
+                    <div am-select-value="">Ваш город</div>
+                    <div am-select-wrapper>
+                        <div am-select-options>
+                            <div am-select-option="0">Все города</div>
+                            <div am-select-option="1">Москва</div>
+                            <div am-select-option="2">Самара</div>
+                            <div am-select-option="3">Тольятти</div>
+                            <div am-select-option="4">Казань</div>
+                            <div am-select-option="5">Сызрань</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div am-form-field>
+                <div am-checkbox>
+                    <input am-checkbox-input name="subscribe" type="checkbox">
+                    <div am-checkbox-wrapper>
+                        <div am-checkbox-icon></div>
+                        <div am-checkbox-label>Подписать на новости</div>
+                    </div>
+                </div>
+            </div>
+
+            <div am-form-field>
+                <button am-button="main" type="submit">Подписаться</button>
+            </div>
+        </form>
+
+    </div>
+
+
+    <div am-container="">
+        <div am-container="">
+            <div am-dropdown>
+                <div am-dropdown-header>dropdown <button>123</button></div>
+                <div am-dropdown-content>
+                    <div am-dropdown-wrapper>
+                        <div am-dropdown-arrow></div>
+                        <ul>
+                            <li><a href="/">dropdown-item-1</a></li>
+                            <li><a href="/">dropdown-item-1</a></li>
+                            <li><a href="/">dropdown-item-1</a></li>
+                            <li><a href="/">dropdown-item-1</a></li>
+                            <li><a href="/">dropdown-item-1</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div am-container="">
+            <div am-dropdown>
+                <div am-dropdown-header>dropdown <button>123</button></div>
+                <div am-dropdown-content direction="top">
+                    <div am-dropdown-wrapper>
+                        <div am-dropdown-arrow></div>
+                        <ul>
+                            <li><a href="/">dropdown-item-1</a></li>
+                            <li><a href="/">dropdown-item-1</a></li>
+                            <li><a href="/">dropdown-item-1</a></li>
+                            <li><a href="/">dropdown-item-1</a></li>
+                            <li><a href="/">dropdown-item-1</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div am-container="">
+            <div am-grid="container" spacing="1">
+                <div am-grid="item" elg="3" sm="12" spacing="1">
+                    <div am-tooltip>
+                        <div am-tooltip-header>tooltip-bottom (default)</div>
+                        <div am-tooltip-content direction="bottom">
+                            <div am-tooltip-wrapper>
+                                <div am-tooltip-arrow></div>
+                                <ul>
+                                    <li>
+                                        <a href="/uikit/components/tooltip">/uikit/components/tooltip</a>
+                                    </li>
+                                    <li>tooltip-item-2</li>
+                                    <li>tooltip-item-3</li>
+                                    <li>tooltip-item-4</li>
+                                    <li>tooltip-item-5</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div am-grid="item" elg="3" sm="12" spacing="1">
+                    <div am-tooltip>
+                        <div am-tooltip-header>tooltip-left
+                            <button>123</button>
+                        </div>
+                        <div am-tooltip-content direction="left">
+                            <div am-tooltip-wrapper>
+                                <div am-tooltip-arrow></div>
+                                <ul>
+                                    <li>tooltip-item-1</li>
+                                    <li>tooltip-item-2</li>
+                                    <li>tooltip-item-3</li>
+                                    <li>tooltip-item-4</li>
+                                    <li>tooltip-item-5</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div am-grid="item" elg="3" sm="12" spacing="1">
+                    <div am-tooltip>
+                        <div am-tooltip-header>tooltip-top</div>
+                        <div am-tooltip-content direction="top">
+                            <div am-tooltip-wrapper>
+                                <div am-tooltip-arrow></div>
+                                <ul>
+                                    <li>tooltip-item-1</li>
+                                    <li>tooltip-item-2</li>
+                                    <li>tooltip-item-3</li>
+                                    <li>tooltip-item-4</li>
+                                    <li>tooltip-item-5</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div am-grid="item" elg="3" sm="12" spacing="1">
+                    <div am-tooltip>
+                        <div am-tooltip-header>tooltip-right</div>
+                        <div am-tooltip-content direction="right">
+                            <div am-tooltip-wrapper>
+                                <div am-tooltip-arrow></div>
+                                <ul>
+                                    <li>tooltip-item-1</li>
+                                    <li>tooltip-item-2</li>
+                                    <li>tooltip-item-3</li>
+                                    <li>tooltip-item-4</li>
+                                    <li>tooltip-item-5</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="evaluationForm">
-                <h3 class="evaluationForm_title">Данные о товаре</h3>
-                <div class="evaluationForm_hr"></div>
-                <div am-form-field="">
-                    <div am-input="evaluate">
-                        <div am-hint="top">Что оценить</div>
-                        <div am-input-group>
-                            <div am-check></div>
-                            <input name="evaluate" type="text" autocomplete="off" placeholder="Бренд, марка, модель">
+
+            <div am-grid="container" spacing="1">
+                <div am-grid="item" elg="4" sm="12" spacing="1">
+                    <div am-tooltip>
+                        <div am-tooltip-header>tooltip align-left</div>
+                        <div am-tooltip-content align="left">
+                            <div am-tooltip-wrapper>
+                                <div am-tooltip-arrow align="left"></div>
+                                <ul>
+                                    <li>
+                                        <a href="/uikit/components/tooltip">/uikit/components/tooltip</a>
+                                    </li>
+                                    <li>tooltip-item-2</li>
+                                    <li>tooltip-item-3</li>
+                                    <li>tooltip-item-4</li>
+                                    <li>tooltip-item-5</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div am-form-field="">
-                    <div am-input="expected_price">
-                        <div am-hint="top">Желаемая стоимость, <span am-rubl="">₽</span></div>
-                        <div am-input-group>
-                            <div am-check></div>
-                            <input name="expected_price" type="text" autocomplete="off">
+                <div am-grid="item" elg="4" sm="12" spacing="1">
+                    <div am-tooltip>
+                        <div am-tooltip-header>tooltip align-stretch</div>
+                        <div am-tooltip-content align="stretch">
+                            <div am-tooltip-wrapper>
+                                <div am-tooltip-arrow align="center"></div>
+                                <ul>
+                                    <li>tooltip-item-1</li>
+                                    <li>tooltip-item-2</li>
+                                    <li>tooltip-item-3</li>
+                                    <li>tooltip-item-4</li>
+                                    <li>tooltip-item-5</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div am-form-field="">
-                    <div am-input="description">
-                        <div am-hint="top">Описание товара</div>
-                        <div am-input-group>
-                            <div am-check></div>
-                            <textarea name="description" type="text" autocomplete="off" rows="6"
-                                placeholder="Состояние, комплектность"></textarea>
+                <div am-grid="item" elg="4" sm="12" spacing="1">
+                    <div am-tooltip>
+                        <div am-tooltip-header>tooltip align-right</div>
+                        <div am-tooltip-content align="right">
+                            <div am-tooltip-wrapper>
+                                <div am-tooltip-arrow align="right"></div>
+                                <ul>
+                                    <li>tooltip-item-1</li>
+                                    <li>tooltip-item-2</li>
+                                    <li>tooltip-item-3</li>
+                                    <li>tooltip-item-4</li>
+                                    <li>tooltip-item-5</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div am-form-field="upload" id="upload-photo">
-                    <div am-hint="top">Фотографии</div>
-                    <div am-upload-photo active>
-                        <span am-icon="pseudo_photo"></span>
-                    </div>
-                    <div am-upload-photo>
-                        <span am-icon="pseudo_photo"></span>
-                    </div>
-                    <div am-upload-photo>
-                        <span am-icon="pseudo_photo"></span>
+
+                <div am-grid="item" elg="4" sm="12" spacing="1">
+                    <div am-tooltip>
+                        <div am-tooltip-header>tooltip align-right</div>
+                        <div am-tooltip-content align="left" direction="top">
+                            <div am-tooltip-wrapper>
+                                <div am-tooltip-arrow align="left"></div>
+                                <ul>
+                                    <li>tooltip-item-1</li>
+                                    <li>tooltip-item-2</li>
+                                    <li>tooltip-item-3</li>
+                                    <li>tooltip-item-4</li>
+                                    <li>tooltip-item-5</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div am-error>Ошибка</div>
-                <div am-hint="top">Максимальный объем файла: 10 МБ. Форматы jpeg, jpg. До 3 фото.</div>
-            </div>
 
-            <div am-input="personal_data" hidden><input type="checkbox" name="personal_data" checked></div>
-
-            <div am-search>
-                <div am-search-icon>
-                    <span am-icon="a_search_dark"></span>
+                <div am-grid="item" elg="4" sm="12" spacing="1">
+                    <div am-tooltip>
+                        <div am-tooltip-header>tooltip align-right</div>
+                        <div am-tooltip-content align="stretch" direction="top">
+                            <div am-tooltip-wrapper>
+                                <div am-tooltip-arrow align="center"></div>
+                                <ul>
+                                    <li>tooltip-item-1</li>
+                                    <li>tooltip-item-2</li>
+                                    <li>tooltip-item-3</li>
+                                    <li>tooltip-item-4</li>
+                                    <li>tooltip-item-5</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <input name="search" type="text" placeholder="Поиск">
-                <button am-search-button>Найти</button>
-            </div>
 
-            <div am-checkbox>
-                <input am-checkbox-input name="sale" type="checkbox">
-                <div am-checkbox-wrapper>
-                    <div am-checkbox-icon></div>
-                    <div am-checkbox-label>Товары со скидкой</div>
+                <div am-grid="item" elg="4" sm="12" spacing="1">
+                    <div am-tooltip>
+                        <div am-tooltip-header>tooltip align-right</div>
+                        <div am-tooltip-content align="right" direction="top">
+                            <div am-tooltip-wrapper>
+                                <div am-tooltip-arrow align="right"></div>
+                                <ul>
+                                    <li>tooltip-item-1</li>
+                                    <li>tooltip-item-2</li>
+                                    <li>tooltip-item-3</li>
+                                    <li>tooltip-item-4</li>
+                                    <li>tooltip-item-5</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div am-checkbox>
-                <input type="checkbox" name="sale">
-                <label am-checkbox-wrapper>
-                    <span am-checkbox-icon></span>
-                    <span am-checkbox-label>Товары со скидкой</span>
-                </label>
-            </div>
 
-            <div am-checkbox>
-                <input type="checkbox" name="sale" checked>
-                <span am-checkbox-icon></span>
-                <span am-checkbox-label>Товары со скидкой</span>
-            </div>
-
-            <button am-button="main" type="submit">Отправить <span am-spinner="small" inverted></span></button>
-            <div am-hint="agreement">
-                Отправляя форму, вы соглашаетесь с<br>
-                <span color="red">условиями обработки и хранения персональных данных</span>
-            </div>
-        </form>
+        </div>
     </div>
 
     <script src="/bundles/js/index.js"></script>

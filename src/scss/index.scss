@@ -6,7 +6,6 @@
     margin: 0;
     text-decoration: none;
     outline: none;
-    color: #333;
 }
 
 a {
@@ -27,4 +26,18 @@ body {
     -moz-osx-font-smoothing: grayscale;
     font-size: 16px;
     overflow-x: hidden;
+    margin: 10px;
+    background: rgb(240, 240, 240);
+    height: 500vh;
+}
+
+[am-dropdown-header],
+[am-tooltip-header] {
+    padding: 10px;
+    border: 1px solid #333;
+    display: inline-block;
+}
+
+[am-container] + [am-container] {
+    margin-top: 50px;
 }

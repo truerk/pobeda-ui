@@ -40,18 +40,6 @@ export class ModalController{
     constructor(props) {
         this.props = props
 
-        /**
-         * wrapper: блок, куда будет помещена модалка
-         * modalClose: кнопка закрытия
-         * overlay: подложка
-         * children: блок с контентом модалки
-         * modal: блок модалки
-         * adaptive: адаптация модалки на маленьких экранов
-         * mobile: модалка как static блок
-         * modalName: наименование (am-modal="modalName")
-         * onRender: функция выполняемая после рендера
-         * onDestroy: функция выполняемая после удаление из dom
-         */
         this.transitionEnd = whichTransitionEvent()
         this.animationEnd = whichAnimationEvent()
 
@@ -116,9 +104,40 @@ export class ModalController{
             if ('onDestroy' in this.props && typeof this.props.onDestroy === 'function') {
                 this.state.onDestroy = this.props.onDestroy;
             }
-        }
 
-        this.build()
+            if ('modal' in this.props && typeof this.props.modal === 'object') {
+                this.state.modal = this.props.modal
+                this.init()
+            } else {
+                this.build()
+            }
+        }
+    }
+
+    init() {
+        if (this.state.modal) {
+            const overlay = this.state.modal.closest('[am-modal-overlay]');
+            const modal = this.state.modal;
+            const modalClose = this.state.modal.querySelector('[am-modal-close]');
+
+            modal.setAttributes({'build': '', ...this.state.options.modalTag, [this.state.options.mobile ? 'mobile' : '']: '',});
+            overlay.setAttributes({[this.state.options.mobile ? 'mobile' : '']: '',});
+            modalClose.setAttributes({...this.state.options.modalCloseTag});
+
+            if (this.state.modalClose.length > 0) {
+                this.state.modalClose.forEach(item => {
+                    modalClose.appendChild(item)
+                })
+            }
+
+            this.state.modal = modal
+            this.state.overlay = overlay
+            this.state.modalClose = modalClose
+            this.state.build = true
+
+            this.state.overlay.addEventListener('click', this.destroy.bind(this))
+            this.state.modalClose.addEventListener('click', this.destroy.bind(this))
+        }
     }
 
     build() {
@@ -128,6 +147,7 @@ export class ModalController{
 
         const modal = createElement('div', {
             'am-modal': this.state.options.modalName,
+            'build': '',
             [this.state.options.adaptive && !this.state.options.mobile ? 'adaptive' : '']: '',
             [this.state.options.mobile ? 'mobile' : '']: '',
             ...this.state.options.modalTag
@@ -153,11 +173,14 @@ export class ModalController{
         }
 
         this.state.wrapper.insertBefore(this.state.overlay, this.state.wrapper.children[0]);
-        this.state.overlay.setAttribute('active', '');
-        this.state.modal.setAttribute('active', '');
 
         this.state.onRender()
         this.state.render = true;
+
+        setTimeout(() => {
+            this.state.overlay.setAttribute('active', '');
+            this.state.modal.setAttribute('active', '');
+        }, 10);
     }
 
     destroy(e, destroy = false) {
@@ -171,13 +194,15 @@ export class ModalController{
             return;
         }
 
-        this.state.modal.addEventListener(this.animationEnd, () => {
+        this.state.modal.addEventListener(this.transitionEnd, () => {
             this.state.overlay.removeAttribute('closing', '');
             this.state.modal.removeAttribute('closing', '');
 
+            this.state.overlay.removeAttribute('active', '');
+            this.state.modal.removeAttribute('active', '');
+
             this.state.overlay.remove();
             this.state.onDestroy();
-
         }, {once: true});
 
         this.state.overlay.setAttribute('closing', '');
@@ -185,7 +210,6 @@ export class ModalController{
         this.state.render = false;
 
         if (this.state.options.mobile) {
-            this.state.overlay.remove();
             this.showChildren([...this.state.wrapper.children])
         }
     }
@@ -196,7 +220,10 @@ export class ModalController{
     hideChildren(needToHide) {
         needToHide.forEach((el) => {
             if (el) {
-                if (el.length > 1 || el.constructor.name === 'HTMLCollection') {
+                if (el === this.state.overlay) {
+                    return
+                }
+                if (el.constructor.name === 'HTMLCollection') {
                     el.forEach((item) => {
                         item.style.display = 'none';
                     })
@@ -213,7 +240,10 @@ export class ModalController{
     showChildren(needToShow) {
         needToShow.forEach((el) => {
             if (el) {
-                if (el.length > 1 || el.constructor.name === 'HTMLCollection') {
+                if (el === this.state.overlay) {
+                    return
+                }
+                if (el.constructor.name === 'HTMLCollection') {
                     el.forEach((item) => {
                         item.removeAttribute('style')
                     })
@@ -244,7 +274,7 @@ export class ModalController{
         const modalTarget = buttonTarget.getAttribute('am-modal-target');
         const modal = document.querySelector(`[am-modal=${modalTarget}]`);
 
-        if (!modal) { return }
+        if (!modal || modal.hasAttribute('build')) { return }
 
         const overlay = modal.closest('[am-modal-overlay]');
 
@@ -256,10 +286,12 @@ export class ModalController{
         const overlay = e.target.closest('[am-modal-overlay]');
         const modal = overlay.querySelector('[am-modal]');
 
+        if (modal.hasAttribute('build')) { return }
+
         overlay.setAttribute('closing', '');
         modal.setAttribute('closing', '');
 
-        modal.addEventListener(this.animationEnd, function (e) {
+        modal.addEventListener(this.transitionEnd, function (e) {
             modal.removeAttribute('active');
             modal.removeAttribute('closing');
             overlay.removeAttribute('active');

@@ -9,6 +9,8 @@ export class SelectController{
         this.props = props
 
         this.state = {
+            divSelect: null,
+
             value: {},
             options: [
                 // { value: '', label: 'Нет значений'}
@@ -25,6 +27,9 @@ export class SelectController{
             render: false,
             build: false,
 
+            control: this.control.bind(this),
+            controlCounter: -1,
+
             onRender: () => {},
             onChange: () => {},
             onDestroy: () => {},
@@ -36,7 +41,15 @@ export class SelectController{
                 name: this.props.name ? this.props.name : this.state.name,
                 placeholder: this.props.placeholder ? this.props.placeholder : this.state.placeholder,
                 placeholderOption: this.props.placeholderOption ? this.props.placeholderOption : this.state.placeholderOption,
-                options: this.props.options.length > 0 ? this.props.options : this.state.options
+            }
+
+            if ('options' in this.props && typeof this.props.options === 'object') {
+                this.state.options = this.props.options.length > 0 ? this.props.options : this.state.option
+            }
+
+            if ('divSelect' in this.props) {
+                this.state.divSelect = this.props.divSelect ? this.props.divSelect : this.state.divSelect
+                this.initSelect()
             }
 
             if ('value' in this.props && typeof this.props.value === 'object') {
@@ -71,6 +84,8 @@ export class SelectController{
                 this.state.onChange = this.props.onChange
             }
         }
+
+
     }
 
     init() {
@@ -81,14 +96,57 @@ export class SelectController{
                 this.destroy(e);
             }
         });
+
         init = true
+    }
+
+    initSelect() {
+        if (this.state.divSelect) {
+            const input = this.state.divSelect.querySelector('[am-select-input]');
+            const value = this.state.divSelect.querySelector('[am-select-value]');
+            const wrapper = this.state.divSelect.querySelector('[am-select-wrapper]');
+            const options = this.state.divSelect.querySelector('[am-select-options]');
+            const option = this.state.divSelect.querySelectorAll('[am-select-option]');
+
+            if (input) {
+                this.state.divInput = input;
+            }
+
+            if (value) {
+                this.state.divValue = value;
+            }
+
+            if (wrapper) {
+                this.state.divWrapper = wrapper;
+            }
+
+            if (options) {
+                this.state.divOptions = options;
+            }
+
+            if (option) {
+                let opt = []
+                option.forEach(item => {
+                    item.addEventListener('click', (e)=> {
+                        e.preventDefault();
+                        if ((item.getAttribute('am-select-option') || item.getAttribute('am-select-option') === 0) && !item.hasAttribute('selected')) {
+                            this.change(item)
+                        }
+                    })
+                    opt.push({value: item.getAttribute('am-select-option'), label: item.textContent})
+                })
+                this.state.options = opt
+            }
+        }
+
+        this.init()
     }
 
     build() {
         let value, input;
 
         const optionsArray = this.state.options.length > 0 ? this.state.options.map(item => {
-            const option = createElement('div', {'am-select-option': item.value, ...this.state.optionTags}, [], item.label);
+            const option = createElement('div', {'am-select-option': item.value, 'tabindex': '0', ...this.state.optionTags}, [], item.label);
             option.addEventListener('click', (e)=> {
                 e.preventDefault();
                 if ((item.value || item.value === 0) && !option.hasAttribute('selected')) {
@@ -115,7 +173,7 @@ export class SelectController{
         const select = createElement('div', {'am-select': this.state.name, ...this.state.selectTags, 'build': ''}, [input, value, wrapper]);
 
         this.state.divSelect = select;
-        this.state.divInput = options;
+        this.state.divInput = input;
         this.state.divValue = value;
         this.state.divWrapper = wrapper;
         this.state.divOptions = options;
@@ -144,6 +202,8 @@ export class SelectController{
             this.state.onRender()
             this.destroy(this.state.divSelect, true);
             this.state.divSelect.setAttribute('active', '');
+            this.state.render = true
+            this.controlInit(true);
         }
     }
 
@@ -156,10 +216,13 @@ export class SelectController{
                 select.removeAttribute('active');
             }
         })
+        this.state.render = true
 
         if (!nope) {
             this.state.onDestroy()
         }
+
+        this.controlInit();
     }
 
     change(option) {
@@ -183,6 +246,34 @@ export class SelectController{
         this.destroy();
     }
 
+    control(e) {
+        e.preventDefault();
+        const options = this.state.divOptions.children;
+
+        if(event.which == 38) {
+            if (!options[this.state.controlCounter - 1]) {return}
+            this.state.controlCounter -= 1;
+            options[this.state.controlCounter].focus()
+        } else if (event.which == 40) {
+            if (!options[this.state.controlCounter + 1]) {
+                return
+            }
+
+            this.state.controlCounter += 1
+            options[this.state.controlCounter].focus()
+        } else if(event.which == 13){
+            options[this.state.controlCounter].click()
+        }
+    }
+
+    controlInit = (render = false) => {
+        if (render) {
+            document.addEventListener('keydown', this.state.control, false);
+        } else {
+            document.removeEventListener('keydown', this.state.control, false);
+        }
+    }
+
     /**
      * Отлавливает список по всплытию
      */
@@ -193,7 +284,11 @@ export class SelectController{
                 return;
             }
 
-            if (e.target.hasAttribute('am-select-value') || e.target.closest('[am-select-value]')) {
+            if (e.target.closest('[am-select]') && e.target.closest('[am-select]').hasAttribute('disabled')) {
+                return
+            }
+
+            if ((e.target.hasAttribute('am-select-value') || e.target.closest('[am-select-value]')) && !e.target.hasAttribute('disabled')) {
                 e.stopPropagation();
                 this.bubbleRender(e);
             }

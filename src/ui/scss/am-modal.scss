@@ -11,22 +11,27 @@
     bottom: 0;
     right: 0;
     transition: all .2s ease-in-out;
-    display: none;
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
 
     &[active] {
-        display: block;
-        animation: inOverlay .15s ease-in-out 1;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
     }
 
     &[closing] {
-        animation: outOverlay .15s ease-in-out 1 forwards;
+        opacity: 0;
     }
 
     &[mobile] {
-        position: static;
         z-index: 0;
-        animation: none;
         background: transparent;
+    }
+
+    &[mobile][active] {
+        position: static;
     }
 }
 
@@ -40,25 +45,24 @@
     max-width: calc(100% - 20px);
     transition: all .3s ease-in-out;
     border-radius: 3px;
-    display: none;
+    margin-top: -5px;
 
     &[active] {
-        display: block;
-        animation: inModal .15s ease-in-out 1;
+        margin-top: 0;
 
         @media (max-width: $sm) {
             &[adaptive] {
-                animation: inModalMobile .15s ease-in-out 1;
+                bottom: 0;
             }
         }
     }
 
     &[closing] {
-        animation: outModal .15s ease-in-out 1 forwards;
+        margin-top: -10px;
 
         @media (max-width: $sm) {
             &[adaptive] {
-                animation: outModalMobile .15s ease-in-out 1 forwards;
+                bottom: -10px;
             }
         }
     }
@@ -69,7 +73,7 @@
             max-width: 100%;
             border-radius: 0;
             top: auto;
-            bottom: 0;
+            bottom: -10px;
             transform: translate(-50%, 0);
         }
     }
@@ -138,62 +142,5 @@
         &:hover::before {
             border-color: #4C4D4F;
         }
-    }
-}
-
-[am-modal-content] {
-    // min-width: 300px;
-}
-
-@keyframes inOverlay {
-    0%{
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-@keyframes outOverlay {
-    0%{
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
-@keyframes inModal {
-    0%{
-        margin-top: -5px;
-    }
-    100% {
-        margin-top: 0px;
-    }
-}
-
-@keyframes outModal {
-    0%{
-        margin-top: 0px;
-    }
-    100% {
-        margin-top: -5px;
-    }
-}
-
-@keyframes inModalMobile {
-    0%{
-        bottom: -10px;
-    }
-    100% {
-        bottom: 0px;
-    }
-}
-
-@keyframes outModalMobile {
-    0%{
-        bottom: 0px;
-    }
-    100% {
-        bottom: -10px;
     }
 }

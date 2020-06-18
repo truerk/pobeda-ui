@@ -98,27 +98,33 @@ export class ProgressController {
             const circle = this.state.ringCircle || this.state.ring.querySelector('circle');
             const circleFill = this.state.ringFill || this.state.ring.querySelector('> circle');
 
-            this.state.ring.setAttribute('am-progress-ring', this.state.name);
-            this.state.ring.setAttribute('width', this.state.ringRadius * 2);
-            this.state.ring.setAttribute('height', this.state.ringRadius * 2);
+            this.state.ring.setAttributes({
+                'am-progress-ring': this.state.name,
+                'width': this.state.ringRadius * 2,
+                'height': this.state.ringRadius * 2
+            })
 
-            circle.setAttribute('stroke', this.state.ringColor);
-            circle.setAttribute('stroke-dasharray', circumference);
-            circle.setAttribute('stroke-width', this.state.ringWidth);
-            circle.setAttribute('fill', 'transparent');
-            circle.setAttribute('r', normalizedRadius);
-            circle.setAttribute('cx', this.state.ringRadius);
-            circle.setAttribute('cy', this.state.ringRadius);
-            circle.style.strokeDashoffset = offset;
+            circle.setAttributes({
+                'stroke': this.state.ringColor,
+                'stroke-dasharray': circumference,
+                'stroke-width': this.state.ringWidth,
+                'fill': 'transparent',
+                'r': normalizedRadius,
+                'cx': this.state.ringRadius,
+                'cy': this.state.ringRadius,
+                'style': 'strokeDashoffset:'+offset
+            })
 
-            circleFill.setAttribute('stroke', this.state.ringFillColor);
-            circleFill.setAttribute('stroke-dasharray', circumference);
-            circleFill.setAttribute('stroke-width', this.state.ringWidth);
-            circleFill.setAttribute('fill', 'transparent');
-            circleFill.setAttribute('r', normalizedRadius);
-            circleFill.setAttribute('cx', this.state.ringRadius);
-            circleFill.setAttribute('cy', this.state.ringRadius);
-            circleFill.style.strokeDashoffset = 0;
+            circleFill.setAttributes({
+                'stroke': this.state.ringFillColor,
+                'stroke-dasharray': circumference,
+                'stroke-width': this.state.ringWidth,
+                'fill': 'transparent',
+                'r': normalizedRadius,
+                'cx': this.state.ringRadius,
+                'cy': this.state.ringRadius,
+                'style': 'strokeDashoffset:0'
+            })
         }
     }
 

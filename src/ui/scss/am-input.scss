@@ -20,6 +20,12 @@
         transition: all .3s ease-in-out;
         outline: none;
 
+        &[disabled] {
+            border: 1px solid $color-main-gray-light;
+            background: #f0f0f0;
+            cursor: not-allowed;
+        }
+
         &:focus {
             border: 1px solid $color-main-gray;
         }

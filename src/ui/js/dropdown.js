@@ -9,7 +9,6 @@ export default function dropdown() {
             const dropdownContent = dropdown.querySelector('[am-dropdown-content]');
             const dropdownWrapper= dropdown.querySelector('[am-dropdown-wrapper]');
             let coord = getCoord(dropdownWrapper);
-            console.log(coord);
 
             if (!dropdown.hasAttribute('active')) {
                 if (dropdownContent.hasAttribute('direction-old')) {
