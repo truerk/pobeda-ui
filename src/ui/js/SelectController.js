@@ -266,7 +266,7 @@ export class SelectController{
         }
     }
 
-    controlInit = (render = false) => {
+    controlInit(render = false) {
         if (render) {
             document.addEventListener('keydown', this.state.control, false);
         } else {
