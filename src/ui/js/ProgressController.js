@@ -82,7 +82,7 @@ export class ProgressController {
                 'r': normalizedRadius,
                 'cx': this.state.ringRadius,
                 'cy': this.state.ringRadius,
-                'style': 'strokeDashoffset:'+offset
+                'style': 'stroke-dashoffset:'+offset
             })
 
             circleFill.setAttributes({
@@ -93,7 +93,7 @@ export class ProgressController {
                 'r': normalizedRadius,
                 'cx': this.state.ringRadius,
                 'cy': this.state.ringRadius,
-                'style': 'strokeDashoffset:0'
+                'style': 'stroke-dashoffset:0'
             })
         }
     }

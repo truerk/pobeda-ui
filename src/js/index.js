@@ -60,9 +60,13 @@ const ring = new ProgressController({
     type: 'ring',
     percent: 75,
     ringRadius: 30,
-    ringColor: 'red',
+    ringFillColor: '#cecece'
+    // ringColor: 'red',
 })
 
+document.querySelector('[am-dropdown]').addEventListener('click', () => {
+    ring.setPercent(ring.getPercent() + 1)
+})
 
 const customSelect = new SelectController({
     name: 'selectBuild',
@@ -147,6 +151,6 @@ const modal11 = new ModalController({
 // document.querySelector('[am-container]').appendChild(customSelect.build())
 document.querySelector('[am-container]').appendChild(progress.build())
 document.querySelector('[am-container]').appendChild(drop.build())
-document.querySelector('[am-container]').appendChild(drop1.build())
+document.querySelector('[am-container]').appendChild(ring.build())
 
 
