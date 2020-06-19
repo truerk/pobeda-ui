@@ -27,7 +27,6 @@ export class ModalController{
             onDestroy: () => {}
         }
 
-
         this.state = utils.object.extend(this.state, this.props)
 
         if (this.state.modal) {

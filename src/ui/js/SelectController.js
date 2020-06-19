@@ -55,6 +55,7 @@ export class SelectController{
 
     initSelect() {
         if (this.state.divSelect) {
+            this.state.divSelect.setAttribute('build', '')
             const input = this.state.divSelect.querySelector('[am-select-input]');
             const value = this.state.divSelect.querySelector('[am-select-value]');
             const wrapper = this.state.divSelect.querySelector('[am-select-wrapper]');
@@ -67,6 +68,9 @@ export class SelectController{
 
             if (value) {
                 this.state.divValue = value;
+                this.state.divValue.addEventListener('click', (e)=> {
+                    this.render()
+                })
             }
 
             if (wrapper) {
@@ -80,6 +84,7 @@ export class SelectController{
             if (option) {
                 let opt = []
                 option.forEach(item => {
+                    item.setAttribute('tabindex', 0)
                     item.addEventListener('click', (e)=> {
                         e.preventDefault();
                         if ((item.getAttribute('am-select-option') || item.getAttribute('am-select-option') === 0) && !item.hasAttribute('selected')) {
@@ -194,7 +199,6 @@ export class SelectController{
             return item.value == option.getAttribute('am-select-option');
         })
 
-
         this.state.onChange({value: this.state.value[0].value, label: this.state.value[0].label})
         this.destroy();
     }
@@ -211,7 +215,6 @@ export class SelectController{
             if (!options[this.state.controlCounter + 1]) {
                 return
             }
-
             this.state.controlCounter += 1
             options[this.state.controlCounter].focus()
         } else if(event.which == 13){

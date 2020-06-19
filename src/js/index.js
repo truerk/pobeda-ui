@@ -6,22 +6,54 @@ dropdown()
 select()
 modal()
 
+const children = utils.element.create('ul', {}, [], `
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+`)
+
+const childrenHeader = utils.element.create('div', {}, [], `
+header
+`)
+const children1 = utils.element.create('ul', {}, [], `
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+`)
+
+const childrenHeader1 = utils.element.create('div', {}, [], `
+header1
+`)
+const children2 = utils.element.create('ul', {}, [], `
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+`)
+
+const childrenHeader3 = utils.element.create('div', {}, [], `
+header3
+`)
 
 const drop = new DropdownController({
     dropdownTags: {
         name: 'dropdown-default'
     },
-    options: {
-        asd: {
-            dsa: 'asd'
-        },
-        name: 'asd'
-    },
-    dropdown:'asd'
+    children: [children],
+    childrenHeader: [childrenHeader],
 })
 
-drop.init()
-
+const drop1 = new DropdownController({
+    dropdownTags: {
+        name: 'dropdown-default1'
+    },
+    children: [children1],
+    childrenHeader: [childrenHeader1],
+})
+const drop2 = new DropdownController({
+    dropdown: document.querySelector('[am-dropdown]')
+    // children: [children1],
+    // childrenHeader: [childrenHeader1],
+})
 
 const ring = new ProgressController({
     name: 'ring',
@@ -45,6 +77,8 @@ const customSelect = new SelectController({
     placeholder: 'Выберите город',
     placeholderOption: 'Список пуст',
     onChange: (option) => {
+        console.log(1);
+
         console.log(option);
 
     }
@@ -66,6 +100,8 @@ const customSelect1 = new SelectController({
     },
     divSelect: document.querySelector('[am-select]'),
     onChange: (option) => {
+        console.log(2);
+
         console.log(option);
     }
 });
@@ -97,6 +133,10 @@ const modal11 = new ModalController({
     modal: document.querySelector('[am-modal="modal_bubble"]'),
     onDestroy: () => {
         console.log('destroy modal11');
+    },
+    options: {
+        mobile: false,
+        adaptive: true
     }
 })
 
@@ -104,7 +144,9 @@ const modal11 = new ModalController({
 // modal11.render()
 
 
-document.querySelector('[am-container]').appendChild(customSelect.build())
+// document.querySelector('[am-container]').appendChild(customSelect.build())
 document.querySelector('[am-container]').appendChild(progress.build())
+document.querySelector('[am-container]').appendChild(drop.build())
+document.querySelector('[am-container]').appendChild(drop1.build())
 
 
