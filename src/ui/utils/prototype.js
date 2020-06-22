@@ -8,7 +8,19 @@
             var node = this;
             for (let key in attr) {
                 if (key !== '') {
-                    node.setAttribute(key, attr[key])
+                    node.setAttribute(key, attr[key]);
+                }
+            }
+            return node
+        };
+    }
+
+    if (!Element.prototype.removeAttributes) {
+        Element.prototype.removeAttributes = function(...agrs) {
+            var node = this;
+            for (let key in agrs) {
+                if (agrs[key] !== '') {
+                    node.removeAttribute(agrs[key]);
                 }
             }
             return node

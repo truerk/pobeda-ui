@@ -1,4 +1,9 @@
 export const element = {
+    /**
+     * @description Возвращает координаты элемента
+     *
+     * @param {HTMLElement} element
+     */
     coord(element) {
         return {
             height: parseInt(element.getBoundingClientRect().bottom - element.getBoundingClientRect().top),
@@ -12,6 +17,16 @@ export const element = {
             clientWidth: document.documentElement.clientWidth,
         }
     },
+
+    /**
+     * @description возвращает созданный HTMLElement
+     *
+     * @param {string} tag
+     * @param {object} attributes
+     * @param {array} children
+     * @param {string} text
+     * @param {string} ns
+     */
     create(tag, attributes, children, text, ns = false) {
         attributes = attributes || false;
         children = children || false;
