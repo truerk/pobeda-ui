@@ -14,7 +14,7 @@ export const mask = {
     number(element) {
         function mask(elem) {
             const element = elem.constructor == InputEvent || elem.constructor == KeyboardEvent ? elem.target : elem;
-            element.value = element.value.replace(/[^\d]/g,'').trim();
+            element.value = element.value.replace(/^\.|[^\d\.]|\.(?=.*\.)|^0+(?=\d)/g,'').trim();
         }
 
         element.addEventListener('input', mask)
