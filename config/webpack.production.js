@@ -60,6 +60,12 @@ module.exports = {
         contentBase: path.join(__dirname, './'),
         overlay: true
     },
+    resolve: {
+        extensions: ['.js', '.jsx'],
+        alias: {
+            '@ui': path.resolve(__dirname, '../src/ui'),
+        }
+    },
     module: {
         rules: [
             {
