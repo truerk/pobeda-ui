@@ -1,5 +1,5 @@
-[npm-url]: https://www.npmjs.com/package/pobeda-ui
-[npm-image]: https://img.shields.io/badge/npm-v0.5.0-blue
+[npm-url]: https://www.npmjs.com/package/nunjucks-template-loader
+[npm-image]: https://img.shields.io/npm/v/pobeda-ui?color=blue
 
 [logo-url]: https://xn---63-5cdesg4ei.xn--p1ai/
 [logo-image]: https://xn---63-5cdesg4ei.xn--p1ai/src/assets/icons/logo_main.svg
@@ -7,7 +7,9 @@
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
 [license-url]: https://github.com/truerk/pobeda-ui/blob/master/LICENSE
 
-# Pobeda-ui [![NPM version][npm-image]][npm-url] [![GitHub license][license-image]][license-url]
+[size-image]: https://img.shields.io/bundlephobia/min/pobeda-ui?color=success&label=size
+
+# Pobeda-ui [![NPM version][npm-image]][npm-url] [![GitHub license][license-image]][license-url] ![][size-image]
 
 [![][logo-image]][logo-url]
 
