@@ -11,7 +11,7 @@
 
 [![][logo-image]][logo-url]
 
-Package of ui components, utilities
+Components for building an interface
 
 ## Installation and usage
 
