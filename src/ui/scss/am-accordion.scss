@@ -1,0 +1,24 @@
+[am-accrodion] {
+    position: relative;
+}
+
+[am-accordion-panel] {
+    position: relative;
+}
+
+[am-accordion-tab] {
+    position: relative;
+    padding: 5px;
+}
+
+[am-accordion-content] {
+    height: 0;
+    // visibility: hidden;
+    overflow: hidden;
+    position: relative;
+
+    &[show] {
+        height: auto;
+        // visibility: visible;
+    }
+}

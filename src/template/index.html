@@ -15,7 +15,8 @@
 
     <body>
 
-        <!-- <div am-wrapper="evaluation">
+        <!-- Формы -->
+        <!-- <div am-wrapper="forms">
         <div am-container="">
 
             <form am-form="news">
@@ -105,7 +106,8 @@
         </div>
     </div> -->
 
-        <div am-container="">
+        <!-- Табы -->
+        <!-- <div am-container="tabs">
             <h3>tabs</h3>
             <div am-tabs="controller">
                 <div am-tab-list="">
@@ -120,7 +122,6 @@
                 </div>
             </div>
         </div>
-
         <div am-container="">
             <h3>tabs_slider</h3>
             <div am-container="">
@@ -136,6 +137,38 @@
                         <div am-tab-content="2" data-content="2">content 2</div>
                         <div am-tab-content="3" data-content="3">content 3</div>
                     </div>
+                </div>
+            </div>
+        </div> -->
+
+
+        <div am-container="accord">
+            
+            <p>Default</p>
+            <div am-accordion="simple">
+                <div am-accordion-panel="1">
+                    <div am-accordion-tab="">Accordion header</div>
+                    <div am-accordion-content="">
+                        <p style="padding: 10px;">Accordion panel</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <p>Multiple</p>
+
+            <div am-accordion="multiple" multiple>
+                <div am-accordion-panel="1">
+                    <div am-accordion-tab="">Accordion header 1</div>
+                    <div am-accordion-content="">Accordion panel 1</div>
+                </div>
+                <div am-accordion-panel="2">
+                    <div am-accordion-tab="">Accordion header 2</div>
+                    <div am-accordion-content="">Accordion panel 2</div>
+                </div>
+                <div am-accordion-panel="3">
+                    <div am-accordion-tab="">Accordion header 3</div>
+                    <div am-accordion-content="">Accordion panel 3</div>
                 </div>
             </div>
         </div>
