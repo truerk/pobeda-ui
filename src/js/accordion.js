@@ -8,19 +8,18 @@ import {dropdown, tooltip, select, modal, ModalController, SelectController, Pro
 
 const accordion = new Accordion('[am-accordion="simple"]')
 
-const accordionMulti = new Accordion('[am-accordion="multiple"]', {
-    duration: 300,
-    active: false,
-    multiple: false,
+const accordionMultiple = new Accordion('[am-accordion="multiple"]', {
+    duration: 800,
+    multiple: true,
     init: true,
 })
 
-// accordion.init()
+accordion.init()
 
-// accordion.on('init', (data) => {
-//     console.log(data);
-// })
+accordion.on('init', (data) => {
+    console.log(data);
+})
 
-// accordion.on('change', (tab, panel) => {
-//     console.log(tab, panel);
-// })
+accordion.on('change', (tab, panel) => {
+    console.log(tab, panel);
+})
