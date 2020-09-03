@@ -1,9 +1,6 @@
 import utils from '../utils/utils'
 import EventEmitter from '../utils/EventEmitter'
 
-/**
- * Класс для вкладок
- */
 export class Tabs extends EventEmitter {
     /**
      * 
