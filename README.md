@@ -15,14 +15,14 @@ Package of ui components, utilities
 
 ## Installation and usage
 
-#### npm
+### npm
 ```
 npm i pobeda-ui
 ```
 
-#### webpack
+### webpack
 
-```
+```js
 resolve: {
         alias: {
             '@ui': path.resolve(__dirname, '/node_modules/pobeda-ui/src/ui/js'),
@@ -31,7 +31,7 @@ resolve: {
     },
 ```
 
-#### code
+### code
 
 ```js
 import ui from '@ui'
@@ -41,7 +41,7 @@ import Accordion from '.@ui/Accordion'
 const accordion = new Accordion('[am-accordion="simple"]')
 ```
 
-#### With props|events
+### With props|events
 
 ```js
 const accordion = new Accordion('[am-accordion="multiple"]', {
@@ -61,7 +61,7 @@ accordion.on('change', (tab, panel) => {
 })
 ```
 
-#### scss
+### scss
 Add component styles to your local styles file
 ```scss
 @import 'node_modules/pobeda-ui/src/ui/scss/am-accordion.scss';
