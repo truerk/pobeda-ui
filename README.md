@@ -1,4 +1,4 @@
-[npm-url]: https://www.npmjs.com/package/nunjucks-template-loader
+[npm-url]: https://www.npmjs.com/package/pobeda-ui
 [npm-image]: https://img.shields.io/badge/npm-v0.5.0-blue
 
 [logo-url]: https://xn---63-5cdesg4ei.xn--p1ai/
