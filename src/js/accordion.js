@@ -6,20 +6,3 @@ import {dropdown, tooltip, select, modal, ModalController, SelectController, Pro
 //     init: false,
 // })
 
-const accordion = new Accordion('[am-accordion="simple"]')
-
-const accordionMultiple = new Accordion('[am-accordion="multiple"]', {
-    duration: 400,
-    multiple: false,
-    init: true,
-})
-
-accordion.init()
-
-accordion.on('init', (data) => {
-    console.log(data);
-})
-
-accordion.on('change', (tab, panel) => {
-    console.log(tab, panel);
-})

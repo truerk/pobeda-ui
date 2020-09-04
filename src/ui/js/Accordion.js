@@ -27,6 +27,7 @@ export class Accordion extends EventEmitter {
         this.state = utils.object.extend(this.state, props)
         this.isShow = false // Состояние активного аккордеона {boolean}
         this.isShowTabs = [] // Состояние всех панелей {Array} { tab, id, isShow }
+        this.initialized = false
 
         if (Array.isArray(element)) {
             if (element.length) {
@@ -57,7 +58,9 @@ export class Accordion extends EventEmitter {
     /**
      * Инициализация аккордеона
      */
-    init() {        
+    init() {     
+        if (this.initialized) return
+
         try {
             // Навешиваем обработчик нажатий на вкладку
             this.$tabs.forEach((tab, i) => {
@@ -73,7 +76,10 @@ export class Accordion extends EventEmitter {
                 }
 
                 tab.addEventListener('click', () => this.toggle(tab, content))
+                
                 panel.setAttribute('init', '')
+                this.initialized = true
+
                 this.emit('init', tab, content)
             })
 
@@ -92,7 +98,7 @@ export class Accordion extends EventEmitter {
     toggle(tab, content) {   
         try {      
             // Если последний активный таб не равен текущему, сбрасываем состояние    
-            if (this.tab !== tab && !this.state.multiple) {
+            if (this.tab !== tab && !this.state.multiple && this.$tabs.length > 1) {
                 this.isShow = false
 
                 // если в аккордеоне много панелей, скрываем все, кроме текущей
@@ -108,7 +114,7 @@ export class Accordion extends EventEmitter {
                 }
     
                 this.isShow = !this.isShow
-            } else {               
+            } else {              
                 const tabParam = this.isShowTabs.filter(param => param.tab === tab)[0]
 
                 if (tabParam.isShow) {   
@@ -176,7 +182,7 @@ export class Accordion extends EventEmitter {
 
             setTimeout(() => {
                 this._hideEnd(tab, content)
-            }, this.state.duration);  
+            }, this.state.duration); 
         } catch (error) {
             console.log(`Error in Tab (hide): ${error}`)
         }
