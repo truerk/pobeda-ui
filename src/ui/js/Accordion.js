@@ -59,8 +59,6 @@ export class Accordion extends EventEmitter {
      */
     init() {        
         try {
-            // const resize = this.onResize.bind(this)
-
             // Навешиваем обработчик нажатий на вкладку
             this.$tabs.forEach((tab, i) => {
                 const panel = tab.closest(this.state.panelClass)
@@ -79,7 +77,8 @@ export class Accordion extends EventEmitter {
                 this.emit('init', tab, content)
             })
 
-            // window.addEventListener('resize', resize)
+            const resize = this.onResize.bind(this)
+            window.addEventListener('resize', resize)
         } catch (error) {
             console.log(`Error in Accordion (init): ${error}`)
         }
@@ -158,7 +157,7 @@ export class Accordion extends EventEmitter {
             content.setAttribute('show', '')
 
             this.emit('show', tab, content)
-            content.style.setProperty('height', `auto`)
+            // content.style.setProperty('height', `auto`)
         } catch (error) {
             console.log(`Error in Tab (showEnd): ${error}`)
         }
@@ -293,20 +292,20 @@ export class Accordion extends EventEmitter {
         }
     }
 
-    // onResize() {
-    //     try {
-    //         this.$tabs.forEach((tab, i) => {
-    //             if (!tab.hasAttribute('active')) return
+    onResize() {
+        try {
+            this.$tabs.forEach((tab, i) => {
+                if (!tab.hasAttribute('active')) return
 
-    //             const panel = tab.closest(this.state.panelClass)
-    //             const content = panel.querySelector(this.state.contentClass)
+                const panel = tab.closest(this.state.panelClass)
+                const content = panel.querySelector(this.state.contentClass)
 
-    //             content.style.setProperty('height', `auto`)
+                content.style.setProperty('height', `auto`)
 
-    //             this._setHeight(tab, content)
-    //         })
-    //     } catch (error) {
-    //         console.log(`Error in Tab (onResize): ${error}`)
-    //     }
-    // }
+                this._setHeight(tab, content)
+            })
+        } catch (error) {
+            console.log(`Error in Tab (onResize): ${error}`)
+        }
+    }
 }
