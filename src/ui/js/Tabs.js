@@ -1,9 +1,9 @@
 import utils from '../utils/utils'
 import EventEmitter from '../utils/EventEmitter'
 
-export class Tabs extends EventEmitter {
+class Tabs extends EventEmitter {
     /**
-     * 
+     *
      * @param {*} element родительский HTMLELement или css селектор вкладок
      * @param {*} props параметры вкладок
      */
@@ -48,12 +48,12 @@ export class Tabs extends EventEmitter {
             if (this.state.active) {
                 this._toggle(this.$tabs[0], Array.prototype.filter.call(this.$contents, item => item.dataset.content === this.$tabs[0].dataset.tab)[0])
             }
-            
+
             this.emit('init', {
                 state: this.state,
                 element: this.$element,
                 tabs: this.$tabs,
-                contents: this.$contents 
+                contents: this.$contents
             })
         } catch (error) {
             console.log(`Error in Tab (init): ${error}`)
@@ -64,10 +64,10 @@ export class Tabs extends EventEmitter {
      * Обработчик нажатий на вкладку
      * @param {HTMLELement} tab элемент вкладки
      */
-    _change(tab) {   
+    _change(tab) {
         try {
             const content = Array.prototype.filter.call(this.$contents, item => item.dataset.content === tab.dataset.tab)[0]
-            
+
             if (!tab.hasAttribute('active') || !content.hasAttribute('active')) {
                 this._toggle(tab, content)
                 this.emit('change', tab, content)
@@ -86,7 +86,7 @@ export class Tabs extends EventEmitter {
         try {
             this.$tabs.forEach(item => item.removeAttribute('active'))
             this.$contents.forEach(item => item.removeAttribute('active'))
-            
+
             tab.setAttribute('active', '')
             content.setAttribute('active', '')
         } catch (error) {
@@ -94,3 +94,5 @@ export class Tabs extends EventEmitter {
         }
     }
 }
+
+export default Tabs

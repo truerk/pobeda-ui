@@ -1,11 +1,11 @@
 import utils from '../utils/utils'
 
-export class ModalController{
+class Modal {
     constructor(props) {
         this.props = props
 
         this.transitionEnd = utils.event.transitionEnd()
-        this.animationEnd = utils.event.transitionEnd()
+        this.animationEnd = utils.event.animationEnd()
 
         this.state = {
             wrapper: document.querySelector('body'),
@@ -179,7 +179,7 @@ export class ModalController{
     /**
      * Отлавливает модалки по всплытию
      */
-    bubbleInit() {
+    static bubbleInit() {
         document.addEventListener('click', (e) => {
             if (e.target.hasAttribute('am-modal-target')) {
                 this.bubbleRender(e)
@@ -191,7 +191,7 @@ export class ModalController{
         });
     }
 
-    bubbleRender(e) {
+    static bubbleRender(e) {
         const buttonTarget = e.target;
         const modalTarget = buttonTarget.getAttribute('am-modal-target');
         const modal = document.querySelector(`[am-modal=${modalTarget}]`);
@@ -204,7 +204,7 @@ export class ModalController{
         modal.setAttribute('active', '');
     }
 
-    bubbleDestroy(e) {
+    static bubbleDestroy(e) {
         const overlay = e.target.closest('[am-modal-overlay]');
         const modal = overlay.querySelector('[am-modal]');
 
@@ -213,7 +213,7 @@ export class ModalController{
         overlay.setAttribute('closing', '');
         modal.setAttribute('closing', '');
 
-        modal.addEventListener(this.transitionEnd, function (e) {
+        modal.addEventListener(utils.event.transitionEnd(), function (e) {
             modal.removeAttribute('active');
             modal.removeAttribute('closing');
             overlay.removeAttribute('active');
@@ -222,6 +222,4 @@ export class ModalController{
     }
 }
 
-export function modal() {
-    new ModalController().bubbleInit()
-}
+export default Modal

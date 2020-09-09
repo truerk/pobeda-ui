@@ -3,7 +3,7 @@ import utils from '../utils/utils'
 let init = false;
 let bubbleInit = false;
 
-export class SelectController{
+class Select {
     constructor(props) {
         this.props = props
 
@@ -233,7 +233,7 @@ export class SelectController{
     /**
      * Отлавливает список по всплытию
      */
-    bubbleInit() {
+    static bubbleInit() {
         if (bubbleInit) { return }
         document.addEventListener('click', (e) => {
             if ((e.target.hasAttribute('am-select') && e.target.hasAttribute('build')) || (e.target.closest('[am-select]') && e.target.closest('[am-select]').hasAttribute('build'))) {
@@ -262,7 +262,7 @@ export class SelectController{
         bubbleInit = true
     }
 
-    bubbleRender(e) {
+    static bubbleRender(e) {
         const select = e.target.closest('[am-select]');
         const selectOptions = select.querySelector('[am-select-options]');
         const coord = utils.element.coord(selectOptions);
@@ -281,18 +281,18 @@ export class SelectController{
         this.bubbleDestroy(e, select);
     }
 
-    bubbleDestroy(e, select1 = false) {
+    static bubbleDestroy(e, select1 = false, important = false) {
         const selects = document.querySelectorAll('[am-select]');
 
         selects.forEach((select) => {
-            if (select1 !== select) {
+            if (important || select1 !== select) {
                 select.querySelector('[am-select-options]').removeAttribute('reverse')
                 select.removeAttribute('active');
             }
         })
     }
 
-    bubbleChange(e) {
+    static bubbleChange(e) {
         const select = e.target.closest('[am-select]');
         const selectInput = select.querySelector('[am-select-input]') || select.querySelector('> input');
         const selectValue = select.querySelector('[am-select-value]');
@@ -308,10 +308,8 @@ export class SelectController{
         selectValue.setAttribute('am-select-value', selectOption.getAttribute('am-select-option'))
         selectValue.innerText = selectOption.innerText;
 
-        this.destroy();
+        this.bubbleDestroy(e, select, true);
     }
 }
 
-export function select() {
-    new SelectController().bubbleInit()
-}
+export default Select

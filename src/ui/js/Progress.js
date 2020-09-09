@@ -1,6 +1,6 @@
 import utils from '../utils/utils'
 
-export class ProgressController {
+class Progress {
     constructor(props) {
         this.props = props
 
@@ -198,3 +198,5 @@ export class ProgressController {
         }
     }
 }
+
+export default Progress

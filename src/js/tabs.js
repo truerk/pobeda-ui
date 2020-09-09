@@ -1,4 +1,4 @@
-import {dropdown, tooltip, select, modal, ModalController, SelectController, ProgressController, DropdownController, Tabs} from '../ui/js/index'
+import { Tooltip, Modal, Progress, Select, Dropdown, Tabs, Accordion } from '../ui/js/index'
 import Swiper from 'swiper'
 
 const tab = new Tabs('[am-tabs="controller"]', {

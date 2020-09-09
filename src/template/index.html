@@ -15,100 +15,129 @@
 
     <body>
 
-        <!-- Формы -->
-        <!-- <div am-wrapper="forms">
         <div am-container="">
-
-            <form am-form="news">
-                <div am-form-field width="100">
-                    <div am-input="surname">
-                        <div am-hint="top">Фамилия</div>
-                        <div am-input-group>
-                            <div am-check></div>
-                            <input name="surname" type="text" placeholder="Фамилия" autocomplete="off">
-                        </div>
-                    </div>
-
-                    <div am-input="name">
-                        <div am-hint="top">Имя <span am-required="">*</span></div>
-                        <div am-input-group>
-                            <div am-check></div>
-                            <input name="name" type="text" placeholder="Имя" autocomplete="off">
-                        </div>
-                    </div>
-
-                    <div am-input="patronymic">
-                        <div am-hint="top">Отчество</div>
-                        <div am-input-group>
-                            <div am-check></div>
-                            <input name="patronymic" type="text" placeholder="Отчество" autocomplete="off" value="qweqwe">
-                        </div>
+            <h2>Modal</h2>
+            <br/>
+            <button am-button="" am-modal-target="modal_bubble">Обычная модалка (bubble)</button>
+            <div am-modal-overlay>
+                <div am-modal="modal_bubble">
+                    <div am-modal-close></div>
+                    <div am-modal-content>
+                        modal_bubble-content
                     </div>
                 </div>
-
-                <div am-form-field width="auto">
-                    <div am-input="phone">
-                        <div am-hint="top">Телефон <span am-required="">*</span></div>
-                        <div am-input-group>
-                            <div am-check></div>
-                            <input name="phone" placeholder="+7 (900) 000-0000" type="tel" autocomplete="off">
-                        </div>
-                    </div>
-
-                    <div am-input="email">
-                        <div am-hint="top">Email</div>
-                        <div am-input-group>
-                            <div am-check></div>
-                            <input name="email" type="email" placeholder="" autocomplete="off">
-                        </div>
+            </div>
+            <button am-button="" am-modal-target="modal_bubble1">Обычная модалка (bubble) adaptive</button>
+            <div am-modal-overlay>
+                <div am-modal="modal_bubble1" adaptive>
+                    <div am-modal-close></div>
+                    <div am-modal-content>
+                        modal_bubble-content 11
                     </div>
                 </div>
+            </div>
+        </div>
+        <br/>
 
-                <div am-form-field>
-                    <div am-input="message">
-                        <div am-hint="top">Сообщение</div>
-                        <textarea name="message" rows="7" placeholder="Ваше сообщение.">qweqweqwe</textarea>
-                    </div>
-                </div>
+        <!-- Формы -->
+        <div am-wrapper="forms">
+            <div am-container="">
+                <h2>Form</h2>
+                <br/>
 
-                <div am-form-field width="auto">
-                    <div am-select am-input="city">
-                        <input am-select-input hidden type="text" name="city" value="">
-                        <div am-select-value="">Выберите город</div>
-                        <div am-select-wrapper>
-                            <div am-select-options>
-                                <div am-select-option="0">Все города</div>
-                                <div am-select-option="1">Москва</div>
-                                <div am-select-option="2">Самара</div>
-                                <div am-select-option="3">Тольятти</div>
-                                <div am-select-option="4">Казань</div>
-                                <div am-select-option="5">Сызрань</div>
+                <form am-form="news">
+                    <div am-form-field width="100">
+                        <div am-input="surname">
+                            <div am-hint="top">Фамилия</div>
+                            <div am-input-group>
+                                <div am-check></div>
+                                <input name="surname" type="text" placeholder="Фамилия" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div am-input="name">
+                            <div am-hint="top">Имя <span am-required="">*</span></div>
+                            <div am-input-group>
+                                <div am-check></div>
+                                <input name="name" type="text" placeholder="Имя" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div am-input="patronymic">
+                            <div am-hint="top">Отчество</div>
+                            <div am-input-group>
+                                <div am-check></div>
+                                <input name="patronymic" type="text" placeholder="Отчество" autocomplete="off" value="qweqwe">
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div am-form-field>
-                    <div am-checkbox>
-                        <input am-checkbox-input name="subscribe" type="checkbox">
-                        <div am-checkbox-wrapper>
-                            <div am-checkbox-icon></div>
-                            <div am-checkbox-label>Подписать на новости</div>
+                    <div am-form-field width="auto">
+                        <div am-input="phone">
+                            <div am-hint="top">Телефон <span am-required="">*</span></div>
+                            <div am-input-group>
+                                <div am-check></div>
+                                <input name="phone" placeholder="+7 (900) 000-0000" type="tel" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div am-input="email">
+                            <div am-hint="top">Email</div>
+                            <div am-input-group>
+                                <div am-check></div>
+                                <input name="email" type="email" placeholder="" autocomplete="off">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div am-form-field>
-                    <button am-button="main" type="submit">Подписаться</button>
-                </div>
-            </form>
+                    <div am-form-field>
+                        <div am-input="message">
+                            <div am-hint="top">Сообщение</div>
+                            <textarea name="message" rows="7" placeholder="Ваше сообщение.">qweqweqwe</textarea>
+                        </div>
+                    </div>
 
+                    <div am-form-field width="auto">
+                        <div am-select am-input="city">
+                            <input am-select-input hidden type="text" name="city" value="">
+                            <div am-select-value="">Выберите город</div>
+                            <div am-select-wrapper>
+                                <div am-select-options>
+                                    <div am-select-option="0">Все города</div>
+                                    <div am-select-option="1">Москва</div>
+                                    <div am-select-option="2">Самара</div>
+                                    <div am-select-option="3">Тольятти</div>
+                                    <div am-select-option="4">Казань</div>
+                                    <div am-select-option="5">Сызрань</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div am-form-field>
+                        <div am-checkbox>
+                            <input am-checkbox-input name="subscribe" type="checkbox">
+                            <div am-checkbox-wrapper>
+                                <div am-checkbox-icon></div>
+                                <div am-checkbox-label>Подписать на новости</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div am-form-field>
+                        <button am-button="main" type="submit">Подписаться</button>
+                    </div>
+                </form>
+
+            </div>
+            <br/>
         </div>
-    </div> -->
 
         <!-- Табы -->
-        <!-- <div am-container="tabs">
-            <h3>tabs</h3>
+        <div am-container="tabs">
+            <h2>Tabs</h2>
+            <br/>
+
             <div am-tabs="controller">
                 <div am-tab-list="">
                     <div am-tab="1" data-tab="1">tab 1</div>
@@ -124,6 +153,8 @@
         </div>
         <div am-container="">
             <h3>tabs_slider</h3>
+            <br/>
+
             <div am-container="">
                 <h3>tabs</h3>
                 <div am-tabs="swiper" class="swiper-container">
@@ -139,11 +170,14 @@
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
+        <br/>
 
 
         <div am-container="accord">
-            
+            <h2>Accordion</h2>
+            <br/>
+
             <h3>Default</h3>
             <div am-accordion="simple">
                 <div am-accordion-panel="1">
@@ -171,6 +205,7 @@
                 </div>
             </div>
         </div>
+        <br/>
 
         <script src="/bundles/js/index.js"></script>
     </body>

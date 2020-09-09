@@ -1,7 +1,7 @@
 import utils from '../utils/utils'
 import EventEmitter from '../utils/EventEmitter'
 
-export class Accordion extends EventEmitter {
+class Accordion extends EventEmitter {
     /**
      * @param {*} element родительский HTMLELement или css селектор
      * @param {*} props параметры аккордеона
@@ -17,7 +17,7 @@ export class Accordion extends EventEmitter {
 
             multiple: false,
             active: false, // Открывать первую панель {boolean}
-            init: true,          
+            init: true,
 
             duration: 300,
         }
@@ -33,7 +33,7 @@ export class Accordion extends EventEmitter {
             if (element.length) {
                 element.map(acc => new Accordion(acc, props));
             }
-  
+
             return false;
         }
 
@@ -58,7 +58,7 @@ export class Accordion extends EventEmitter {
     /**
      * Инициализация аккордеона
      */
-    init() {     
+    init() {
         if (this.initialized) return
 
         try {
@@ -66,17 +66,17 @@ export class Accordion extends EventEmitter {
             this.$tabs.forEach((tab, i) => {
                 const panel = tab.closest(this.state.panelClass)
                 const content = panel.querySelector(this.state.contentClass)
-                const id = this._setID(tab)   
+                const id = this._setID(tab)
 
-                content.style.setProperty('transition', `height ease-in-out ${this.state.duration}ms`) 
-                this.isShowTabs.push({ tab, id, isShow: false })  
+                content.style.setProperty('transition', `height ease-in-out ${this.state.duration}ms`)
+                this.isShowTabs.push({ tab, id, isShow: false })
 
                 if (this.state.active && i === 0) {
                     this.toggle(tab, content)
                 }
 
                 tab.addEventListener('click', () => this.toggle(tab, content))
-                
+
                 panel.setAttribute('init', '')
                 this.initialized = true
 
@@ -95,16 +95,16 @@ export class Accordion extends EventEmitter {
      * @param {HTMLELement} tab
      * @param {HTMLELement} content
      */
-    toggle(tab, content) {   
-        try {      
-            // Если последний активный таб не равен текущему, сбрасываем состояние    
+    toggle(tab, content) {
+        try {
+            // Если последний активный таб не равен текущему, сбрасываем состояние
             if (this.tab !== tab && !this.state.multiple && this.$tabs.length > 1) {
                 this.isShow = false
 
                 // если в аккордеоне много панелей, скрываем все, кроме текущей
-                this.hideAll(tab) 
-            }         
-            
+                this.hideAll(tab)
+            }
+
             // Если multiple не вклчюен, то у всех общее состояние
             if (!this.state.multiple) {
                 if (this.isShow) {
@@ -112,21 +112,21 @@ export class Accordion extends EventEmitter {
                 } else {
                     this.show(tab, content)
                 }
-    
+
                 this.isShow = !this.isShow
-            } else {              
+            } else {
                 const tabParam = this.isShowTabs.filter(param => param.tab === tab)[0]
 
-                if (tabParam.isShow) {   
-                    this._setShowTab(tab, false)                 
+                if (tabParam.isShow) {
+                    this._setShowTab(tab, false)
                     this.hide(tab, content)
                 } else {
-                    this._setShowTab(tab, true)  
+                    this._setShowTab(tab, true)
                     this.show(tab, content)
                 }
 
                 this.isShow = !this.isShow
-            }            
+            }
 
             this.emit('toggle', tab, content)
         } catch (error) {
@@ -140,7 +140,7 @@ export class Accordion extends EventEmitter {
      * @param {HTMLELement} content
      */
     show(tab, content) {
-        try {          
+        try {
             const height = content.scrollHeight
 
             tab.setAttribute('active', '')
@@ -151,14 +151,14 @@ export class Accordion extends EventEmitter {
 
             setTimeout(() => {
                 this._showEnd(tab, content)
-            }, this.state.duration);  
+            }, this.state.duration);
         } catch (error) {
             console.log(`Error in Tab (show): ${error}`)
         }
     }
 
     _showEnd(tab, content) {
-        try {          
+        try {
             content.removeAttribute('showing')
             content.setAttribute('show', '')
 
@@ -167,7 +167,7 @@ export class Accordion extends EventEmitter {
         } catch (error) {
             console.log(`Error in Tab (showEnd): ${error}`)
         }
-    }    
+    }
 
     /**
      * Закрывает панель
@@ -175,14 +175,14 @@ export class Accordion extends EventEmitter {
      * @param {HTMLELement} content
      */
     hide(tab, content) {
-        try {          
+        try {
             content.setAttribute('hiding', '')
 
             this._setHeight(0, content)
 
             setTimeout(() => {
                 this._hideEnd(tab, content)
-            }, this.state.duration); 
+            }, this.state.duration);
         } catch (error) {
             console.log(`Error in Tab (hide): ${error}`)
         }
@@ -193,10 +193,10 @@ export class Accordion extends EventEmitter {
      * @param {HTMLELement} currentTab
      */
     hideAll(currentTab) {
-        try {     
+        try {
             if (currentTab) {
                 const needTabsHidden = Array.prototype.filter.call(this.$tabs, tab => tab !== currentTab)
-        
+
                 needTabsHidden.forEach(tab => {
                     const panel = tab.closest(this.state.panelClass)
                     const content = panel.querySelector(this.state.contentClass)
@@ -205,12 +205,12 @@ export class Accordion extends EventEmitter {
                     content.removeAttribute('show', '')
                     content.removeAttribute('hiding')
                     tab.removeAttribute('active')
-                    
+
                     this._setHeight(0, content)
                 });
-        
+
                 this.tab = currentTab
-            } else {    
+            } else {
                 this.$tabs.forEach(tab => {
                     const panel = tab.closest(this.state.panelClass)
                     const content = panel.querySelector(this.state.contentClass)
@@ -219,10 +219,10 @@ export class Accordion extends EventEmitter {
                     content.removeAttribute('show', '')
                     content.removeAttribute('hiding')
                     tab.removeAttribute('active')
-                    
+
                     this._setHeight(0, content)
                 });
-        
+
                 this.tab = null
             }
         } catch (error) {
@@ -236,7 +236,7 @@ export class Accordion extends EventEmitter {
      * @param {HTMLELement} content
      */
     _hideEnd(tab, content) {
-        try {     
+        try {
             content.removeAttribute('show')
             content.removeAttribute('hiding')
             tab.removeAttribute('active')
@@ -253,7 +253,7 @@ export class Accordion extends EventEmitter {
      * @param {string} height высоту элемента - 0 || px
      */
     _setHeight(height, content) {
-        try {     
+        try {
             content.style.setProperty('height', `${content.scrollHeight}px`)
 
             window.requestAnimationFrame(() => {
@@ -266,10 +266,10 @@ export class Accordion extends EventEmitter {
 
     /**
      * Устанавливает уникальный id для панели
-     * @param {HTMLELement} element 
+     * @param {HTMLELement} element
      */
-    _setID(element) {   
-        try {         
+    _setID(element) {
+        try {
             element.setAttribute('data-id', `${this.id++}`)
             return this.id
         } catch (error) {
@@ -279,11 +279,11 @@ export class Accordion extends EventEmitter {
 
     /**
      * Устанавилвает состояние для текущей панели
-     * @param {HTMLELement} tab 
-     * @param {boolean} state  
+     * @param {HTMLELement} tab
+     * @param {boolean} state
      */
     _setShowTab(tab, state) {
-        try {         
+        try {
             const needTab = this.isShowTabs.filter(param => param.tab === tab)[0]
 
             this.isShowTabs = this.isShowTabs.map(param => {
@@ -315,3 +315,5 @@ export class Accordion extends EventEmitter {
         }
     }
 }
+
+export default Accordion

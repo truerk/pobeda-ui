@@ -7,13 +7,13 @@
  * Published under MIT License
  */
 
-import {tooltip} from './TooltipController.js'
-import {dropdown, DropdownController} from './DropdownController.js'
-import {select, SelectController} from './SelectController.js'
-import {modal, ModalController} from './ModalController.js'
-import {ProgressController} from './ProgressController.js'
-import {Tabs} from './Tabs.js'
-import {Accordion} from './Accordion.js'
+import Tooltip from './Tooltip.js'
+import Dropdown from './Dropdown.js'
+import Select from './Select.js'
+import Modal from './Modal.js'
+import Progress from './Progress.js'
+import Tabs from './Tabs.js'
+import Accordion from './Accordion.js'
 import '../utils/prototype'
 
-export { tooltip, dropdown, modal, select, ModalController, ProgressController, SelectController, DropdownController, Tabs, Accordion}
+export { Tooltip, Modal, Progress, Select, Dropdown, Tabs, Accordion }
