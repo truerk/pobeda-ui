@@ -62,7 +62,9 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx'],
         alias: {
-            '@ui': path.resolve(__dirname, '../src/ui'),
+            '@ui': path.resolve(__dirname, '../src/ui/js'),
+            '@scss': path.resolve(__dirname, '../src/ui/scss'),
+            '@utils': path.resolve(__dirname, '../src/ui/utils'),
         }
     },
     module: {

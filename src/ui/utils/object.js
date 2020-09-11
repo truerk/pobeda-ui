@@ -1,4 +1,4 @@
-export const object = {
+const object = {
     // extend(source, properties) {
     //     var property;
     //     for (property in properties) {
@@ -36,3 +36,5 @@ export const object = {
         return to;
     }
 }
+
+export default object

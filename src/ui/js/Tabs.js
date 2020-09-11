@@ -1,4 +1,4 @@
-import utils from '../utils/utils'
+import utils from '../utils'
 import EventEmitter from '../utils/EventEmitter'
 
 class Tabs extends EventEmitter {

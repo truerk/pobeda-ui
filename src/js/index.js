@@ -1,11 +1,13 @@
-import { Tooltip, Modal, Progress, Select, Dropdown, Tabs, Accordion } from '../ui/js/index'
-import utils from '../ui/utils/utils'
+import { Tooltip, Modal, Progress, Select, Dropdown, Tabs, Accordion } from '@ui'
+import utils from '@utils'
+import element from '@utils/element'
 import EventEmitter from '../ui/utils/EventEmitter'
 import Swiper from 'swiper'
 
 import './forms'
 import './tabs'
 import './accordion'
+import './utils'
 
 Tooltip.bubbleInit()
 Dropdown.bubbleInit()

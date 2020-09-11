@@ -17,11 +17,11 @@ let tabsSlider = new Swiper('[am-tabs="swiper"]', {
 });
 
 tab.on('init', (data) => {
-    console.log(data);
+    // console.log(data);
 })
 
 tab.on('change', (tab, content) => {
-    console.log(tab, content);
+    // console.log(tab, content);
 })
 
 tab.init()

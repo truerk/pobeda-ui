@@ -11,11 +11,11 @@ const accordionMultiple = new Accordion('[am-accordion="multiple"]', {
 })
 
 accordion.on('init', (data) => {
-    console.log(data);
+    // console.log(data);
 })
 
 accordion.on('toggle', (tab, panel) => {
-    console.log(tab, panel);
+    // console.log(tab, panel);
 })
 
 accordion.init()

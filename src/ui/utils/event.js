@@ -1,4 +1,4 @@
-export const event = {
+const event = {
     transitionEnd(){
         var t,
             el = document.createElement("fakeelement");
@@ -34,3 +34,5 @@ export const event = {
         }
     }
 }
+
+export default event

@@ -1,6 +1,6 @@
-import utils from './utils'
+import utils from '@utils'
 
-export const form = {
+const form = {
     /**
      * @description Возвращает массив с данными полей формы
      *
@@ -126,3 +126,5 @@ export const form = {
         element.value = ''
     }
 }
+
+export default form

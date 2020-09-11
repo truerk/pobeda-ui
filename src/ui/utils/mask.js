@@ -1,4 +1,4 @@
-export const mask = {
+const mask = {
     string(element) {
         function mask(elem) {
             const element = elem.constructor == InputEvent || elem.constructor == KeyboardEvent ? elem.target : elem;
@@ -96,3 +96,5 @@ export const mask = {
         return element;
     }
 }
+
+export default mask

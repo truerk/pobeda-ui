@@ -1,4 +1,4 @@
-import utils from '../ui/utils/utils'
+import utils from '../ui/utils'
 
 const button = document.querySelector('button[type="submit"]')
 const form = document.querySelector('form')
@@ -59,8 +59,8 @@ button.addEventListener('click', (e) => {
         error = utils.form.validate(element, options, error)
     });
 
-    console.log(1);
+    // console.log(1);
     if (utils.form.checkError(error)) return
-    console.log(2);
+    // console.log(2);
 
 })

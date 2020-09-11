@@ -1,4 +1,4 @@
-import utils from '../utils/utils'
+import utils from '../utils'
 
 class Tooltip {
     static bubbleInit() {

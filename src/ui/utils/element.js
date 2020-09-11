@@ -1,8 +1,8 @@
-export const element = {
+const element = {
     /**
-     * @description Возвращает координаты элемента
-     *
+     * Возвращает координаты элемента
      * @param {HTMLElement} element
+     * @returns {Object}
      */
     coord(element) {
         return {
@@ -19,13 +19,13 @@ export const element = {
     },
 
     /**
-     * @description возвращает созданный HTMLElement
-     *
+     * Возвращает созданный HTMLElement
      * @param {string} tag
      * @param {object} attributes
      * @param {array} children
      * @param {string} text
      * @param {string} ns
+     * @returns {HTMLElement}
      */
     create(tag, attributes, children, text, ns = false) {
         attributes = attributes || false;
@@ -59,6 +59,20 @@ export const element = {
         if (text) {
             element.innerHTML = text;
         }
+        
         return element;
+    },
+
+    /**
+     * Создает HTMLElement из разметки
+     * @param {string} content html разметка
+     * @returns {HTMLElement}
+     */
+    createTemplate(content) {
+        const template = document.createElement('template');
+        template.insertAdjacentHTML('afterbegin', content);
+        return template.lastElementChild
     }
 }
+
+export default element

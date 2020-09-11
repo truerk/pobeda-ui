@@ -1,4 +1,4 @@
-import utils from '../utils/utils'
+import utils from '../utils'
 
 let init = false;
 let bubbleInit = false;
