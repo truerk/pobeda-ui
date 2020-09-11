@@ -1,5 +1,5 @@
 /*!
- * Pobeda-ui v0.5.0
+ * Pobeda-ui v0.6.0
  * Native Javascript ui components.
  * https://github.com/truerk/pobeda-ui
  *

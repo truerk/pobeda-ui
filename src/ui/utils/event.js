@@ -1,4 +1,8 @@
 const event = {
+    /**
+     * Отслеживает окончание tranistion css на элементе
+     * element.addEventListener(transitionEnd, cb)
+     */
     transitionEnd(){
         var t,
             el = document.createElement("fakeelement");
@@ -16,6 +20,11 @@ const event = {
             }
         }
     },
+    
+    /**
+     * Отслеживает окончание animation css на элементе
+     * element.addEventListener(animationEnd, cb)
+     */
     animationEnd(){
         var t,
             el = document.createElement("fakeelement");

@@ -1,4 +1,8 @@
 const mask = {
+    /**
+     * Маска для текста
+     * @param {HTMLElement} element 
+     */
     string(element) {
         function mask(elem) {
             const element = elem.constructor == InputEvent || elem.constructor == KeyboardEvent ? elem.target : elem;
@@ -11,6 +15,11 @@ const mask = {
 
         return element
     },
+
+    /**
+     * маска для чисел
+     * @param {HTMLElement} element 
+     */
     number(element) {
         function mask(elem) {
             const element = elem.constructor == InputEvent || elem.constructor == KeyboardEvent ? elem.target : elem;
@@ -23,6 +32,11 @@ const mask = {
 
         return element
     },
+
+    /**
+     * Маска дл чисел с плавающей запятой
+     * @param {HTMLElement} element 
+     */
     float(element) {
         function mask(elem) {
             const element = elem.constructor == InputEvent || elem.constructor == KeyboardEvent ? elem.target : elem;
@@ -35,6 +49,11 @@ const mask = {
 
         return element
     },
+    
+    /**
+     * Маска для телефона
+     * @param {HTMLElement} element 
+     */
     phone(element) {
         let keyCode;
 

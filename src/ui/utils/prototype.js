@@ -1,7 +1,6 @@
 (function() {
     /**
-     * Принимает обьект
-     * Устанавливает атрибутты для элемента
+     * Устанавливает атрибуты элемента
      */
     if (!Element.prototype.setAttributes) {
         Element.prototype.setAttributes = function(attr) {
@@ -15,6 +14,9 @@
         };
     }
 
+    /**
+     * Удаляет атрибуты элемента
+     */
     if (!Element.prototype.removeAttributes) {
         Element.prototype.removeAttributes = function(...agrs) {
             var node = this;

@@ -1,12 +1,7 @@
-import utils from '../utils'
-import EventEmitter from '../utils/EventEmitter'
+import utils from '@utils'
+import EventEmitter from '@utils/EventEmitter'
 
 class Tabs extends EventEmitter {
-    /**
-     *
-     * @param {*} element родительский HTMLELement или css селектор вкладок
-     * @param {*} props параметры вкладок
-     */
     constructor(element, props) {
         super()
 
@@ -37,7 +32,7 @@ class Tabs extends EventEmitter {
     }
 
     /**
-     * Инициализация вкладок
+     * Инициализация Tabs
      */
     init() {
         try {
@@ -61,7 +56,7 @@ class Tabs extends EventEmitter {
     }
 
     /**
-     * Обработчик нажатий на вкладку
+     * Изменяет контент Tabs
      * @param {HTMLELement} tab элемент вкладки
      */
     _change(tab) {
@@ -78,7 +73,7 @@ class Tabs extends EventEmitter {
     }
 
     /**
-     * Переключает активную вкладку
+     * Переключает Tabs
      * @param {HTMLElement} tab элемент вкладки
      * @param {HTMLElement} content элемент контента
      */

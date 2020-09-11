@@ -1,4 +1,4 @@
-import utils from '../utils'
+import utils from '@utils'
 
 let init = false;
 let bubbleInit = false;
@@ -41,6 +41,9 @@ class Select {
         }
     }
 
+    /**
+     * Инициализация Select
+     */
     init() {
         if (init) { return }
         document.addEventListener('click', (e) => {
@@ -100,6 +103,9 @@ class Select {
         this.init()
     }
 
+    /**
+     * Создает Select
+     */
     build() {
         let value, input;
 
@@ -145,7 +151,10 @@ class Select {
         return select
     }
 
-    render(e) {
+    /**
+     * Открывает Select
+     */
+    render() {
         const coord = utils.element.coord(this.state.divOptions);
 
         this.state.divOptions.removeAttribute('reverse')
@@ -165,6 +174,11 @@ class Select {
         }
     }
 
+    /**
+     * Закрывает Select
+     * @param {HTMLElement} select1 текущей Select
+     * @param {Boolean} nope true, onDestroy не вызовится
+     */
     destroy(select1 = false, nope = false) {
         const selects = document.querySelectorAll('[am-select]');
 
@@ -183,6 +197,10 @@ class Select {
         this.controlInit();
     }
 
+    /**
+     * Изменяет option
+     * @param {Object} option параметры option 
+     */
     change(option) {
         this.state.divInput.value = option.getAttribute('am-select-option');
         this.state.divValue.setAttribute('am-select-value', option.getAttribute('am-select-option'))
@@ -203,6 +221,10 @@ class Select {
         this.destroy();
     }
 
+    /**
+     * Переключение стрелочками
+     * @param {Event} e 
+     */
     control(e) {
         e.preventDefault();
         const options = this.state.divOptions.children;
@@ -222,6 +244,10 @@ class Select {
         }
     }
 
+    /**
+     * Инициализация контроля
+     * @param {*} render true, добавляет обработчик, иначе удаляет
+     */
     controlInit(render = false) {
         if (render) {
             document.addEventListener('keydown', this.state.control, false);
@@ -231,7 +257,7 @@ class Select {
     }
 
     /**
-     * Отлавливает список по всплытию
+     * Инициализация шаблонных Select
      */
     static bubbleInit() {
         if (bubbleInit) { return }

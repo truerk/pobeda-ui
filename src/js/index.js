@@ -1,7 +1,7 @@
 import { Tooltip, Modal, Progress, Select, Dropdown, Tabs, Accordion } from '@ui'
 import utils from '@utils'
 import element from '@utils/element'
-import EventEmitter from '../ui/utils/EventEmitter'
+import EventEmitter from '@utils/EventEmitter'
 import Swiper from 'swiper'
 
 import './forms'

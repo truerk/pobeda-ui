@@ -1,4 +1,4 @@
-import { Tooltip, Modal, Progress, Select, Dropdown, Tabs, Accordion } from '../ui/js/index'
+import { Tooltip, Modal, Progress, Select, Dropdown, Tabs, Accordion } from '@ui'
 
 const accordion = new Accordion('[am-accordion="simple"]', {
     init: false

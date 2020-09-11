@@ -2,6 +2,11 @@ class EventEmitter {
     constructor() {
         this.events = {};
     }
+    /**
+     * Добавляет событие
+     * @param {string} event 
+     * @param {Function} listener 
+     */
     on(event, listener) {
         if (typeof this.events[event] !== 'object') {
             this.events[event] = [];
@@ -9,6 +14,11 @@ class EventEmitter {
         this.events[event].push(listener);
         return () => this.removeListener(event, listener);
     }
+    /**
+     * Удаляет событие
+     * @param {string} event 
+     * @param {Function} listener 
+     */
     removeListener(event, listener) {
         if (typeof this.events[event] === 'object') {
             const idx = this.events[event].indexOf(listener);
@@ -17,6 +27,11 @@ class EventEmitter {
             }
         }
     }
+    /**
+     * Вызывает событие
+     * @param {string} event 
+     * @param  {...any} args 
+     */
     emit(event, ...args) {
         if (typeof this.events[event] === 'object') {
             this.events[event].forEach(listener => listener.apply(this, args));

@@ -1,4 +1,4 @@
-import utils from '../utils'
+import utils from '@utils'
 
 class Progress {
     constructor(props) {
@@ -32,6 +32,9 @@ class Progress {
         this.init()
     }
 
+    /**
+     * Инициализация Progress
+     */
     init() {
         if (this.state.progress) {
             this.state.progress.setAttribute('data-percent', this.state.percent);
@@ -98,6 +101,9 @@ class Progress {
         }
     }
 
+    /**
+     * Создает Progress
+     */
     build() {
         if (this.state.type === 'line') {
             const progressBar = utils.element.create('div', {'am-progress-bar': '', 'style': `width:${this.state.percent}%`, ...this.state.progressBarTag});
@@ -147,6 +153,10 @@ class Progress {
         return utils.element.create('div', {hidden: true});
     }
 
+    /**
+     * Устанавливает процент
+     * @param {Number} value значение прогресса 0-100
+     */
     setPercent(value) {
         if (value >= 100) {
             this.state.percent = 100;
@@ -158,28 +168,51 @@ class Progress {
         this.init()
     }
 
+    /**
+     * Возврашает текущий процент
+     * @returns {number} percent
+     */
     getPercent() {
         return this.state.percent;
     }
 
+    /**
+     * Устанавливает элемент для Progress
+     * @param {HTMLElement} progress 
+     */
     setProgress(progress) {
         this.state.progress = progress;
         this.init()
     }
 
+    /**
+     * Устанавливает элемент для Progress (кольцевой)
+     * @param {HTMLElement} ring 
+     */
     setRing(ring) {
         this.state.progress = ring;
         this.init()
     }
 
+    /**
+     * Возвращает Progress
+     * @returns {HTMLElement} line
+     */
     getProgress() {
         return this.state.progress;
     }
 
+    /**
+     * Возвращает Progress (ring)
+     * @returns {HTMLElement} ring
+     */
     getRing() {
         return this.state.ring;
     }
 
+    /**
+     * Скрывает Progress
+     */
     hide() {
         if (this.state.ring) {
             this.state.ring.setAttribute('hidden', '')
@@ -189,6 +222,9 @@ class Progress {
         }
     }
 
+    /**
+     * Показывает Progress
+     */
     show() {
         if (this.state.ring) {
             this.state.ring.removeAttribute('hidden')

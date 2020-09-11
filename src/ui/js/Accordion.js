@@ -1,11 +1,7 @@
-import utils from '../utils'
-import EventEmitter from '../utils/EventEmitter'
+import utils from '@utils'
+import EventEmitter from '@utils/EventEmitter'
 
 class Accordion extends EventEmitter {
-    /**
-     * @param {*} element родительский HTMLELement или css селектор
-     * @param {*} props параметры аккордеона
-     */
     constructor(element, props) {
         super()
 
@@ -29,6 +25,7 @@ class Accordion extends EventEmitter {
         this.isShowTabs = [] // Состояние всех панелей {Array} { tab, id, isShow }
         this.initialized = false
 
+        // Если пришел массив элементов, создаем для каждого отдельный экземпляр
         if (Array.isArray(element)) {
             if (element.length) {
                 element.map(acc => new Accordion(acc, props));
@@ -56,7 +53,7 @@ class Accordion extends EventEmitter {
     }
 
     /**
-     * Инициализация аккордеона
+     * Инициализация Accordion
      */
     init() {
         if (this.initialized) return
@@ -157,6 +154,11 @@ class Accordion extends EventEmitter {
         }
     }
 
+    /**
+     * Вызывается после открытия
+     * @param {HTMLELement} tab
+     * @param {HTMLELement} content
+     */
     _showEnd(tab, content) {
         try {
             content.removeAttribute('showing')
@@ -231,7 +233,7 @@ class Accordion extends EventEmitter {
     }
 
     /**
-     * Закрывает панель
+     * Вызыается после закрытия
      * @param {HTMLELement} tab
      * @param {HTMLELement} content
      */

@@ -1,4 +1,4 @@
-import utils from '../utils'
+import utils from '@utils'
 
 class Modal {
     constructor(props) {
@@ -36,6 +36,9 @@ class Modal {
         }
     }
 
+    /**
+     * Инициализация Modal
+     */
     init() {
         if (this.state.modal) {
             const overlay = this.state.modal.closest('[am-modal-overlay]');
@@ -62,6 +65,9 @@ class Modal {
         }
     }
 
+    /**
+     * Создает Modal
+     */
     build() {
         const modalClose = utils.element.create('div', {'am-modal-close': '', ...this.state.options.modalCloseTag}, this.state.modalClose.length > 0 ? this.state.modalClose: []);
         const modalContent = utils.element.create('div', {
@@ -89,6 +95,9 @@ class Modal {
         this.state.modalClose.addEventListener('click', this.destroy.bind(this))
     }
 
+    /**
+     * Открывает Modal
+     */
     render() {
         if (this.state.options.mobile) {
             this.hideChildren([...this.state.wrapper.children])
@@ -105,6 +114,11 @@ class Modal {
         }, 10);
     }
 
+    /**
+     * Закрывает Modal
+     * @param {Event} e window.event 
+     * @param {Boolean} destroy передать true, если необходимо закрыть окно в коде
+     */
     destroy(e, destroy = false) {
         e.stopPropagation();
 
@@ -137,7 +151,8 @@ class Modal {
     }
 
     /**
-     * Скрываем все дочерние элементы
+     * Скрывает элементы
+     * @param {Array} needToHide массив элементов или коллекция, которые необходимо скрыть
      */
     hideChildren(needToHide) {
         needToHide.forEach((el) => {
@@ -157,7 +172,8 @@ class Modal {
     }
 
     /**
-     * Удаляет style у всех дочерних элементов
+     * Удаляет style у элементов
+     * @param {Array} needToHide массив элементов или коллекция
      */
     showChildren(needToShow) {
         needToShow.forEach((el) => {
@@ -177,7 +193,7 @@ class Modal {
     }
 
     /**
-     * Отлавливает модалки по всплытию
+     * Инициализация для шаблонных Modal
      */
     static bubbleInit() {
         document.addEventListener('click', (e) => {
@@ -191,6 +207,9 @@ class Modal {
         });
     }
 
+    /**
+     * Открытие шаблонных Modal
+     */
     static bubbleRender(e) {
         const buttonTarget = e.target;
         const modalTarget = buttonTarget.getAttribute('am-modal-target');
@@ -204,6 +223,9 @@ class Modal {
         modal.setAttribute('active', '');
     }
 
+    /**
+     * Закрытие шаблонных Modal
+     */
     static bubbleDestroy(e) {
         const overlay = e.target.closest('[am-modal-overlay]');
         const modal = overlay.querySelector('[am-modal]');

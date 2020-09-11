@@ -2,8 +2,7 @@ import utils from '@utils'
 
 const form = {
     /**
-     * @description Возвращает массив с данными полей формы
-     *
+     * Возвращает массив с данными полей формы
      * @param {HTMLElement} form
      * @returns {object} Возвращает массив данных полей [...{name, input, container, value}]
      */
@@ -24,8 +23,7 @@ const form = {
     },
 
     /**
-     * @description Возвращает обьект с данными поля формы
-     *
+     * Возвращает обьект с данными поля формы
      * @param {HTMLElement} element
      * @returns {object} Возвращает данные поля {name, input, container, value}
      */
@@ -39,8 +37,7 @@ const form = {
     },
 
     /**
-     * @description Обработчик полей формы, валидирует поля формы
-     *
+     * Обработчик полей формы, валидирует поля формы
      * @param {HTMLElement} element Элемент валидации
      * @param {object} options Параметры, на которые нужно проверять поле {empty, text, number, phone, email}
      */
@@ -62,12 +59,10 @@ const form = {
     },
 
     /**
-     * @description Валидация поля формы,
-     *
+     * Валидация поля формы
      * @param {object} element - обьект с данными поля {name, input, container, value}
      * @param {object} options - параметры валидации {empty, text, number, phone, email}
-     * @param {object} result - обьект, с результатами валидации {name: true|false}
-     *
+     * @param {object} result - обьект, с результатами валидации {name: true|false}     *
      * @returns {object} возвращает результат валидаци {name: true|false}
      */
     validate(element, options = {}, result = {}) {
@@ -109,8 +104,7 @@ const form = {
     },
 
     /**
-     * @description Возвращает true если есть ошибки при валидации
-     *
+     * Возвращает true если есть ошибки при валидации
      * @param {object} error Результат валидации {name: true|false}
      */
     checkError(error) {
@@ -122,6 +116,10 @@ const form = {
         return false
     },
 
+    /**
+     * Очищает значение
+     * @param {HTMLElement} element 
+     */
     clear(element) {
         element.value = ''
     }

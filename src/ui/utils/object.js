@@ -11,6 +11,10 @@ const object = {
     is(o) {
         return typeof o === 'object' && o !== null && o.constructor && o.constructor === Object;
     },
+    /**
+     * Object.assign
+     * @param  {...any} args 
+     */
     extend(...args) {
         const to = Object(args[0]);
         for (let i = 1; i < args.length; i += 1) {

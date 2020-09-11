@@ -1,4 +1,4 @@
-import utils from '../utils'
+import utils from '@utils'
 
 let init = false;
 
@@ -37,6 +37,9 @@ class Dropdown {
         }
     }
 
+    /**
+     * Инициализация Dropdown
+     */
     init() {
         if (init) { return }
         document.addEventListener('click', (e) => {
@@ -86,6 +89,9 @@ class Dropdown {
         }
     }
 
+    /**
+     * Создает Dropdown
+     */
     build() {
         const arrow = utils.element.create('div', {'am-dropdown-arrow': '', ...this.state.arrowTags})
         const wrapper = utils.element.create('div', {'am-dropdown-wrapper': '', ...this.state.wrapperTags}, [arrow, ...this.state.children])
@@ -109,6 +115,9 @@ class Dropdown {
         return this.state.dropdown
     }
 
+    /**
+     * Открывает Dropdown
+     */
     render() {
         if (this.state.dropdown.hasAttribute('active')) {
             this.state.dropdown.removeAttribute('active')
@@ -123,6 +132,10 @@ class Dropdown {
         this.destroy();
     }
 
+    /**
+     * Закрывает Dropdown
+     * @param {Boolean} all true, если необходимо закрыть все Dropdown
+     */
     destroy(all = false) {
         const dropdowns = document.querySelectorAll('[am-dropdown]');
 
@@ -135,6 +148,9 @@ class Dropdown {
         })
     }
 
+    /**
+     * Устанавливает направление Dropdown
+     */
     setDirection() {
         let coord = utils.element.coord(this.state.dropdownWrapper);
 
@@ -156,6 +172,9 @@ class Dropdown {
         }
     }
 
+    /**
+     * Инициализация шаблонных Dropdown 
+     */
     static bubbleInit() {
         document.addEventListener('click', (e) => {
             const dropdowns = document.querySelectorAll('[am-dropdown]')
