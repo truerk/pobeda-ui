@@ -47,8 +47,8 @@ module.exports = {
     },
     entry: {
         "index": [
-            `${PATHS.src}/js/index.js`,
-            `${PATHS.src}/scss/index.js`,
+            `${PATHS.src}/ui/js/index.js`,            
+            `${PATHS.src}/ui/index.js`
         ],
     },
     output: {
