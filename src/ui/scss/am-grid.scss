@@ -97,7 +97,7 @@
     }
 }
 
-@media screen and (max-width: $lg) {
+@media (max-width: $lg) {
     @for $i from 1 through $columns {
         [am-grid~="item"][lg~='#{$i}'] {
             max-width: percentage($i / $columns);
@@ -105,7 +105,7 @@
     }
 }
 
-@media screen and (max-width: $md) {
+@media (max-width: $md) {
     @for $i from 1 through $columns {
         [am-grid~="item"][md~='#{$i}'] {
             max-width: percentage($i / $columns);
@@ -113,7 +113,7 @@
     }
 }
 
-@media screen and (max-width: $sm) {
+@media (max-width: $sm) {
     @for $i from 1 through $columns {
         [am-grid~="item"][sm~='#{$i}'] {
             max-width: percentage($i / $columns);

@@ -6,8 +6,9 @@
 
     &[active] {
         [am-select-wrapper] {
-            visibility: visible;
-            pointer-events: auto;
+            // visibility: visible;
+            // pointer-events: auto;
+            display: block;
         }
     }
 
@@ -70,9 +71,10 @@
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    visibility: hidden;
-    pointer-events: none;
+    // visibility: hidden;
+    // pointer-events: none;
     z-index: $zIndex-select;
+    display: none;
 }
 
 [am-select-options] {

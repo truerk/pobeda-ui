@@ -101,6 +101,8 @@ class Modal {
     render() {
         if (this.state.options.mobile) {
             this.hideChildren([...this.state.wrapper.children])
+        } else {
+            document.querySelector('body').style.setProperty('overflow', 'hidden')
         }
 
         this.state.wrapper.insertBefore(this.state.overlay, this.state.wrapper.children[0]);
@@ -143,7 +145,8 @@ class Modal {
 
         this.state.overlay.setAttribute('closing', '');
         this.state.modal.setAttribute('closing', '');
-        this.state.render = false;
+        this.state.render = false;           
+        document.querySelector('body').style.removeProperty('overflow')
 
         if (this.state.options.mobile) {
             this.showChildren([...this.state.wrapper.children])

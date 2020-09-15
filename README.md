@@ -29,7 +29,8 @@ npm i pobeda-ui
 resolve: {
         alias: {
             '@ui': path.resolve(__dirname, '/node_modules/pobeda-ui/src/ui/js'),
-            '@utils': path.resolve(__dirname, '/node_modules/pobeda-ui/src/ui/utils/utils.js'),
+            '@ui/scss': path.resolve(__dirname, '/node_modules/pobeda-ui/src/ui/scss'),
+            '@utils': path.resolve(__dirname, '/node_modules/pobeda-ui/src/ui/utils/utils'),
         }
     },
 ```

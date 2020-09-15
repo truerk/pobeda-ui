@@ -1,4 +1,5 @@
-import utils from '@utils'
+import element from '@utils/element'
+import object from '@utils/object'
 import EventEmitter from '@utils/EventEmitter'
 
 let init = false;
@@ -11,8 +12,6 @@ class Select extends EventEmitter{
         this.props = props
 
         this.state = {
-            divSelect: element,
-
             value: {},
             options: [
                 // { value: '', label: 'Нет значений'}
@@ -29,6 +28,8 @@ class Select extends EventEmitter{
             render: false,
             build: false,
 
+            reverse: false,
+
             control: this.control.bind(this),
             controlCounter: -1,
         }
@@ -36,23 +37,29 @@ class Select extends EventEmitter{
 
         if (Array.isArray(element)) {
             if (element.length) {
-                element.map(sel => new Select(sel, props));
+                element.forEach(sel => new Select(sel, props));
             }
 
             return false;
         }
 
         this.$select = null;
+        this.$input = null;
+        this.$value = null;
+        this.$options = null;
+        this.$option = null;
 
         if (typeof element === 'object') {
             this.$select = element
         } else if (typeof element === 'string') {
             this.$select = document.querySelector(element)
+        } else {
+            throw new Error('Select: Неправльный тип element')
         }
 
-        this.state = utils.object.extend(this.state, this.props)
+        this.state = object.extend(this.state, this.props)
 
-        if (this.state.divSelect) {
+        if (this.$select) {
             this.init()
         }
     }
@@ -62,7 +69,7 @@ class Select extends EventEmitter{
         document.addEventListener('click', (e) => {
             if (!e.target.closest('[am-select]')) {
                 e.stopPropagation();
-                this.destroy();
+                this.destroy(true);
             }
         });
 
@@ -72,100 +79,48 @@ class Select extends EventEmitter{
     /**
      * Инициализация Select
      */
-    init() {
-        if (this.state.divSelect) {
-            this.state.divSelect.setAttribute('build', '')
-            const input = this.state.divSelect.querySelector('[am-select-input]');
-            const value = this.state.divSelect.querySelector('[am-select-value]');
-            const wrapper = this.state.divSelect.querySelector('[am-select-wrapper]');
-            const options = this.state.divSelect.querySelector('[am-select-options]');
-            const option = this.state.divSelect.querySelectorAll('[am-select-option]');
+    init() { 
+        this.$input = this.$select.querySelector('[am-select-input]');
+        this.$value = this.$select.querySelector('[am-select-value]');
+        this.$options = this.$select.querySelector('[am-select-options]');
+        this.$select.setAttribute('init', 'true')
 
-            if (input) {
-                this.state.divInput = input;
-            }
+        const options = this.$options.querySelectorAll('[am-select-option]')
 
-            if (value) {
-                this.state.divValue = value;
-                this.state.divValue.addEventListener('click', (e)=> {
-                    this.render()
-                })
-            }
-
-            if (wrapper) {
-                this.state.divWrapper = wrapper;
-            }
-
-            if (options) {
-                this.state.divOptions = options;
-            }
-
-            if (option) {
-                let opt = []
-                option.forEach(item => {
-                    item.setAttribute('tabindex', 0)
-                    item.addEventListener('click', (e)=> {
-                        e.preventDefault();
-                        if ((item.getAttribute('am-select-option') || item.getAttribute('am-select-option') === 0) && !item.hasAttribute('selected')) {
-                            this.change(item)
-                        }
-                    })
-                    opt.push({value: item.getAttribute('am-select-option'), label: item.textContent})
-                })
-                this.state.options = opt
-            }
+        // Если есть передали options, добавялем в Select
+        if (this.state.options.length) {
+            this.state.options.map(option => {
+                this.$options.appendChild(element.createTemplate(`
+                    <div am-select-option="${option.value}" tab-index="0">${option.label}</div>
+                `))
+            })
         }
 
-        this.initDocument()
-    }
+        // Если есть option в шаблоне, добавляем их в стейт
+        if (options.length) {
+            options.forEach(item => {
+                this.state.options.push({value: item.getAttribute('am-select-option'), label: item.textContent})
+                item.setAttribute('tabindex', 0)
+            })
+        }
 
-    /**
-     * Создает Select
-     */
-    build() {
-        let value, input;
+        this.$option = this.$options.querySelectorAll('[am-select-option]')
 
-        const optionsArray = this.state.options.length > 0 ? this.state.options.map(item => {
-            const option = utils.element.create('div', {'am-select-option': item.value, 'tabindex': '0', ...this.state.optionTags}, [], item.label);
+        this.$option.forEach(option => {            
             option.addEventListener('click', (e)=> {
                 e.preventDefault();
-                if ((item.value || item.value === 0) && !option.hasAttribute('selected')) {
+
+                if (!option.hasAttribute('selected')) {
                     this.change(option)
                 }
             })
-            return option;
-        }) : this.state.placeholderOption ? [utils.element.create('div', {'am-select-option': '', ...this.state.optionTags}, [], this.state.placeholderOption)] : '';
+        })
 
-        const options = utils.element.create('div', {'am-select-options': '', ...this.state.optionsTags}, optionsArray);
-        const wrapper = utils.element.create('div', {'am-select-wrapper': '', ...this.state.optionTags}, [options]);
-        if (this.state.placeholder) {
-            value = utils.element.create('div', {'am-select-value': ''}, [], this.state.placeholder);
-            input = utils.element.create('input', {'am-select-input': '', 'value': '', 'name': this.state.name, 'type': 'hidden'});
-        } else {
-            if (this.state.options.length > 0) {
-                optionsArray[0].setAttribute('selected', '');
-
-                // this.state.onChange({value: this.state.options[0].value, label: this.state.options[0].label});
-                // this.emit('change', {value: this.state.options[0].value, label: this.state.options[0].label})
-            }
-            value = utils.element.create('div', {'am-select-value': this.state.options.length > 0 ? this.state.options[0].value : ''}, [], this.state.options.length > 0 ? this.state.options[0].label : this.state.placeholder);
-            input = utils.element.create('input', {'am-select-input': '', 'value': this.state.options.length > 0 ? this.state.options[0].value : '', 'name': this.state.name, 'type': 'hidden'});
-        }
-        const select = utils.element.create('div', {'am-select': this.state.name, ...this.state.selectTags, 'build': ''}, [input, value, wrapper]);
-
-        this.state.divSelect = select;
-        this.state.divInput = input;
-        this.state.divValue = value;
-        this.state.divWrapper = wrapper;
-        this.state.divOptions = options;
-
-        this.state.divValue.addEventListener('click', (e)=> {
-            e.preventDefault();
+        this.$value.addEventListener('click', (e)=> {
             this.render()
         })
 
-        this.init();
-        return select
+        this.initDocument()
     }
 
     /**
@@ -178,38 +133,33 @@ class Select extends EventEmitter{
         //     this.state.divOptions.setAttribute('reverse', '')
         // }
 
-        if (this.state.divSelect.hasAttribute('active')) {
-            this.state.divSelect.removeAttribute('active');
-            this.destroy(this.state.divSelect);
+        if (this.$select.hasAttribute('active')) {
+            this.$select.removeAttribute('active');
+            this.destroy();
         } else {
             this.emit('render', this.$select)
-            this.destroy(this.state.divSelect, true);
-            this.state.divSelect.setAttribute('active', '');
+            this.destroy(true);
             this.state.render = true
             this.controlInit(true);
+            this.$select.setAttribute('active', '');
         }
     }
 
     /**
      * Закрывает Select
-     * @param {HTMLElement} select1 текущей Select
-     * @param {Boolean} nope true, onDestroy не вызовится
+     * @param {HTMLElement} currentSelect текущей Select
+     * @param {Boolean} notEmit true, destroy не вызовится
      */
-    destroy(select1 = false, nope = false) {
+    destroy(notEmit = false) {
         const selects = document.querySelectorAll('[am-select]');
 
         selects.forEach((select) => {
-            if (select !== select1) {
-                // select.querySelector('[am-select-options]').removeAttribute('reverse')
-                select.removeAttribute('active');
-            }
+            select.removeAttribute('active');
         })
-        this.state.render = true
-
-        if (!nope) {            
-            this.emit('render', this.$select)
+        
+        if (!notEmit) {
+            this.emit('destroy', this.$select) 
         }
-
         this.controlInit();
     }
 
@@ -218,10 +168,10 @@ class Select extends EventEmitter{
      * @param {Object} option параметры option 
      */
     change(option) {
-        this.state.divInput.value = option.getAttribute('am-select-option');
-        this.state.divValue.setAttribute('am-select-value', option.getAttribute('am-select-option'))
-        this.state.divValue.innerText = option.innerText;
-        const selected = this.state.divOptions.querySelector('[am-select-option][selected]');
+        this.$input.value = option.getAttribute('am-select-option');
+        this.$value.setAttribute('am-select-value', option.getAttribute('am-select-option'))
+        this.$value.innerText = option.innerText;
+        const selected = this.$options.querySelector('[am-select-option][selected]');
 
         if (selected) {
             selected.removeAttribute('selected');
@@ -233,7 +183,9 @@ class Select extends EventEmitter{
             return item.value == option.getAttribute('am-select-option');
         })
 
-        this.emit('change', {value: this.state.value[0].value, label: this.state.value[0].label})
+        this.state.value = {value: this.state.value[0].value, label: this.state.value[0].label}
+
+        this.emit('change', this.state.value)
         this.destroy();
     }
 
@@ -243,7 +195,7 @@ class Select extends EventEmitter{
      */
     control(e) {
         e.preventDefault();
-        const options = this.state.divOptions.children;
+        const options = this.$options.children;
 
         if(event.which == 38) {
             if (!options[this.state.controlCounter - 1]) {return}
@@ -256,6 +208,7 @@ class Select extends EventEmitter{
             this.state.controlCounter += 1
             options[this.state.controlCounter].focus()
         } else if(event.which == 13){
+            console.log(options[this.state.controlCounter]);
             options[this.state.controlCounter].click()
         }
     }
@@ -271,87 +224,6 @@ class Select extends EventEmitter{
             document.removeEventListener('keydown', this.state.control, false);
         }
     }
-
-    /**
-     * Инициализация шаблонных Select
-     */
-    // static bubbleInit() {
-    //     if (bubbleInit) { return }
-    //     document.addEventListener('click', (e) => {
-    //         if ((e.target.hasAttribute('am-select') && e.target.hasAttribute('build')) || (e.target.closest('[am-select]') && e.target.closest('[am-select]').hasAttribute('build'))) {
-    //             return;
-    //         }
-
-    //         if (e.target.closest('[am-select]') && e.target.closest('[am-select]').hasAttribute('disabled')) {
-    //             return
-    //         }
-
-    //         if ((e.target.hasAttribute('am-select-value') || e.target.closest('[am-select-value]')) && !e.target.hasAttribute('disabled')) {
-    //             e.stopPropagation();
-    //             this.bubbleRender(e);
-    //         }
-
-    //         if (!e.target.closest('[am-select]')) {
-    //             e.stopPropagation();
-    //             this.bubbleDestroy(e);
-    //         }
-
-    //         if ((e.target.hasAttribute('am-select-option') || e.target.closest('[am-select-option]')) && !e.target.hasAttribute('selected')) {
-    //             e.stopPropagation();
-    //             this.bubbleChange(e);
-    //         }
-    //     });
-    //     bubbleInit = true
-    // }
-
-    // static bubbleRender(e) {
-    //     const select = e.target.closest('[am-select]');
-    //     const selectOptions = select.querySelector('[am-select-options]');
-    //     const coord = utils.element.coord(selectOptions);
-
-    //     selectOptions.removeAttribute('reverse')
-    //     if ((coord.clientHeight - coord.bottom) <= 5 && (coord.top - coord.height) > 50 && !select.hasAttribute('active')) {
-    //         selectOptions.setAttribute('reverse', '')
-    //     }
-
-    //     if (select.hasAttribute('active')) {
-    //         select.removeAttribute('active');
-    //     } else {
-    //         select.setAttribute('active', '');
-    //     }
-
-    //     this.bubbleDestroy(e, select);
-    // }
-
-    // static bubbleDestroy(e, select1 = false, important = false) {
-    //     const selects = document.querySelectorAll('[am-select]');
-
-    //     selects.forEach((select) => {
-    //         if (important || select1 !== select) {
-    //             select.querySelector('[am-select-options]').removeAttribute('reverse')
-    //             select.removeAttribute('active');
-    //         }
-    //     })
-    // }
-
-    // static bubbleChange(e) {
-    //     const select = e.target.closest('[am-select]');
-    //     const selectInput = select.querySelector('[am-select-input]') || select.querySelector('> input');
-    //     const selectValue = select.querySelector('[am-select-value]');
-    //     const selectOption = e.target.hasAttribute('[am-select-option]') ? e.target : e.target.closest('[am-select-option]');
-    //     const selected = select.querySelector('[am-select-option][selected]');
-
-    //     if (selected) {
-    //         selected.removeAttribute('selected');
-    //     }
-    //     selectOption.setAttribute('selected', '');
-
-    //     selectInput.value = selectOption.getAttribute('am-select-option');
-    //     selectValue.setAttribute('am-select-value', selectOption.getAttribute('am-select-option'))
-    //     selectValue.innerText = selectOption.innerText;
-
-    //     this.bubbleDestroy(e, select, true);
-    // }
 }
 
 export default Select

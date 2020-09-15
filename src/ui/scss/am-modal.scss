@@ -52,7 +52,11 @@
 
         @media (max-width: $sm) {
             &[adaptive] {
-                bottom: 0;
+                bottom: 0;  
+            }         
+
+            &:not([closing]) {
+                max-height: 100%;
             }
         }
     }
@@ -75,6 +79,11 @@
             top: auto;
             bottom: -10px;
             transform: translate(-50%, 0);
+        }        
+
+        & {
+            max-width: 100%!important;
+            overflow-y: auto;
         }
     }
 
