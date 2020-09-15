@@ -1,14 +1,17 @@
 import utils from '@utils'
+import EventEmitter from '@utils/EventEmitter'
 
 let init = false;
-let bubbleInit = false;
+// let bubbleInit = false;
 
-class Select {
-    constructor(props) {
+class Select extends EventEmitter{
+    constructor(element, props) {
+        super()
+
         this.props = props
 
         this.state = {
-            divSelect: null,
+            divSelect: element,
 
             value: {},
             options: [
@@ -28,35 +31,48 @@ class Select {
 
             control: this.control.bind(this),
             controlCounter: -1,
+        }
 
-            onRender: () => {},
-            onChange: () => {},
-            onDestroy: () => {},
+
+        if (Array.isArray(element)) {
+            if (element.length) {
+                element.map(sel => new Select(sel, props));
+            }
+
+            return false;
+        }
+
+        this.$select = null;
+
+        if (typeof element === 'object') {
+            this.$select = element
+        } else if (typeof element === 'string') {
+            this.$select = document.querySelector(element)
         }
 
         this.state = utils.object.extend(this.state, this.props)
 
         if (this.state.divSelect) {
-            this.initSelect()
+            this.init()
         }
     }
 
-    /**
-     * Инициализация Select
-     */
-    init() {
+    initDocument() {
         if (init) { return }
         document.addEventListener('click', (e) => {
             if (!e.target.closest('[am-select]')) {
                 e.stopPropagation();
-                this.destroy(e);
+                this.destroy();
             }
         });
 
         init = true
     }
 
-    initSelect() {
+    /**
+     * Инициализация Select
+     */
+    init() {
         if (this.state.divSelect) {
             this.state.divSelect.setAttribute('build', '')
             const input = this.state.divSelect.querySelector('[am-select-input]');
@@ -100,7 +116,7 @@ class Select {
             }
         }
 
-        this.init()
+        this.initDocument()
     }
 
     /**
@@ -129,7 +145,8 @@ class Select {
             if (this.state.options.length > 0) {
                 optionsArray[0].setAttribute('selected', '');
 
-                this.state.onChange({value: this.state.options[0].value, label: this.state.options[0].label});
+                // this.state.onChange({value: this.state.options[0].value, label: this.state.options[0].label});
+                // this.emit('change', {value: this.state.options[0].value, label: this.state.options[0].label})
             }
             value = utils.element.create('div', {'am-select-value': this.state.options.length > 0 ? this.state.options[0].value : ''}, [], this.state.options.length > 0 ? this.state.options[0].label : this.state.placeholder);
             input = utils.element.create('input', {'am-select-input': '', 'value': this.state.options.length > 0 ? this.state.options[0].value : '', 'name': this.state.name, 'type': 'hidden'});
@@ -155,18 +172,17 @@ class Select {
      * Открывает Select
      */
     render() {
-        const coord = utils.element.coord(this.state.divOptions);
-
-        this.state.divOptions.removeAttribute('reverse')
-        if ((coord.clientHeight - coord.bottom) <= 5 && (coord.top - coord.height) > 50 && !this.state.divSelect.hasAttribute('active')) {
-            this.state.divOptions.setAttribute('reverse', '')
-        }
+        // const coord = utils.element.coord(this.state.divOptions);
+        // this.state.divOptions.removeAttribute('reverse')
+        // if ((coord.clientHeight - coord.bottom) <= 5 && (coord.top - coord.height) > 50 && !this.state.divSelect.hasAttribute('active')) {
+        //     this.state.divOptions.setAttribute('reverse', '')
+        // }
 
         if (this.state.divSelect.hasAttribute('active')) {
             this.state.divSelect.removeAttribute('active');
             this.destroy(this.state.divSelect);
         } else {
-            this.state.onRender()
+            this.emit('render', this.$select)
             this.destroy(this.state.divSelect, true);
             this.state.divSelect.setAttribute('active', '');
             this.state.render = true
@@ -184,14 +200,14 @@ class Select {
 
         selects.forEach((select) => {
             if (select !== select1) {
-                select.querySelector('[am-select-options]').removeAttribute('reverse')
+                // select.querySelector('[am-select-options]').removeAttribute('reverse')
                 select.removeAttribute('active');
             }
         })
         this.state.render = true
 
-        if (!nope) {
-            this.state.onDestroy()
+        if (!nope) {            
+            this.emit('render', this.$select)
         }
 
         this.controlInit();
@@ -217,7 +233,7 @@ class Select {
             return item.value == option.getAttribute('am-select-option');
         })
 
-        this.state.onChange({value: this.state.value[0].value, label: this.state.value[0].label})
+        this.emit('change', {value: this.state.value[0].value, label: this.state.value[0].label})
         this.destroy();
     }
 
@@ -259,83 +275,83 @@ class Select {
     /**
      * Инициализация шаблонных Select
      */
-    static bubbleInit() {
-        if (bubbleInit) { return }
-        document.addEventListener('click', (e) => {
-            if ((e.target.hasAttribute('am-select') && e.target.hasAttribute('build')) || (e.target.closest('[am-select]') && e.target.closest('[am-select]').hasAttribute('build'))) {
-                return;
-            }
+    // static bubbleInit() {
+    //     if (bubbleInit) { return }
+    //     document.addEventListener('click', (e) => {
+    //         if ((e.target.hasAttribute('am-select') && e.target.hasAttribute('build')) || (e.target.closest('[am-select]') && e.target.closest('[am-select]').hasAttribute('build'))) {
+    //             return;
+    //         }
 
-            if (e.target.closest('[am-select]') && e.target.closest('[am-select]').hasAttribute('disabled')) {
-                return
-            }
+    //         if (e.target.closest('[am-select]') && e.target.closest('[am-select]').hasAttribute('disabled')) {
+    //             return
+    //         }
 
-            if ((e.target.hasAttribute('am-select-value') || e.target.closest('[am-select-value]')) && !e.target.hasAttribute('disabled')) {
-                e.stopPropagation();
-                this.bubbleRender(e);
-            }
+    //         if ((e.target.hasAttribute('am-select-value') || e.target.closest('[am-select-value]')) && !e.target.hasAttribute('disabled')) {
+    //             e.stopPropagation();
+    //             this.bubbleRender(e);
+    //         }
 
-            if (!e.target.closest('[am-select]')) {
-                e.stopPropagation();
-                this.bubbleDestroy(e);
-            }
+    //         if (!e.target.closest('[am-select]')) {
+    //             e.stopPropagation();
+    //             this.bubbleDestroy(e);
+    //         }
 
-            if ((e.target.hasAttribute('am-select-option') || e.target.closest('[am-select-option]')) && !e.target.hasAttribute('selected')) {
-                e.stopPropagation();
-                this.bubbleChange(e);
-            }
-        });
-        bubbleInit = true
-    }
+    //         if ((e.target.hasAttribute('am-select-option') || e.target.closest('[am-select-option]')) && !e.target.hasAttribute('selected')) {
+    //             e.stopPropagation();
+    //             this.bubbleChange(e);
+    //         }
+    //     });
+    //     bubbleInit = true
+    // }
 
-    static bubbleRender(e) {
-        const select = e.target.closest('[am-select]');
-        const selectOptions = select.querySelector('[am-select-options]');
-        const coord = utils.element.coord(selectOptions);
+    // static bubbleRender(e) {
+    //     const select = e.target.closest('[am-select]');
+    //     const selectOptions = select.querySelector('[am-select-options]');
+    //     const coord = utils.element.coord(selectOptions);
 
-        selectOptions.removeAttribute('reverse')
-        if ((coord.clientHeight - coord.bottom) <= 5 && (coord.top - coord.height) > 50 && !select.hasAttribute('active')) {
-            selectOptions.setAttribute('reverse', '')
-        }
+    //     selectOptions.removeAttribute('reverse')
+    //     if ((coord.clientHeight - coord.bottom) <= 5 && (coord.top - coord.height) > 50 && !select.hasAttribute('active')) {
+    //         selectOptions.setAttribute('reverse', '')
+    //     }
 
-        if (select.hasAttribute('active')) {
-            select.removeAttribute('active');
-        } else {
-            select.setAttribute('active', '');
-        }
+    //     if (select.hasAttribute('active')) {
+    //         select.removeAttribute('active');
+    //     } else {
+    //         select.setAttribute('active', '');
+    //     }
 
-        this.bubbleDestroy(e, select);
-    }
+    //     this.bubbleDestroy(e, select);
+    // }
 
-    static bubbleDestroy(e, select1 = false, important = false) {
-        const selects = document.querySelectorAll('[am-select]');
+    // static bubbleDestroy(e, select1 = false, important = false) {
+    //     const selects = document.querySelectorAll('[am-select]');
 
-        selects.forEach((select) => {
-            if (important || select1 !== select) {
-                select.querySelector('[am-select-options]').removeAttribute('reverse')
-                select.removeAttribute('active');
-            }
-        })
-    }
+    //     selects.forEach((select) => {
+    //         if (important || select1 !== select) {
+    //             select.querySelector('[am-select-options]').removeAttribute('reverse')
+    //             select.removeAttribute('active');
+    //         }
+    //     })
+    // }
 
-    static bubbleChange(e) {
-        const select = e.target.closest('[am-select]');
-        const selectInput = select.querySelector('[am-select-input]') || select.querySelector('> input');
-        const selectValue = select.querySelector('[am-select-value]');
-        const selectOption = e.target.hasAttribute('[am-select-option]') ? e.target : e.target.closest('[am-select-option]');
-        const selected = select.querySelector('[am-select-option][selected]');
+    // static bubbleChange(e) {
+    //     const select = e.target.closest('[am-select]');
+    //     const selectInput = select.querySelector('[am-select-input]') || select.querySelector('> input');
+    //     const selectValue = select.querySelector('[am-select-value]');
+    //     const selectOption = e.target.hasAttribute('[am-select-option]') ? e.target : e.target.closest('[am-select-option]');
+    //     const selected = select.querySelector('[am-select-option][selected]');
 
-        if (selected) {
-            selected.removeAttribute('selected');
-        }
-        selectOption.setAttribute('selected', '');
+    //     if (selected) {
+    //         selected.removeAttribute('selected');
+    //     }
+    //     selectOption.setAttribute('selected', '');
 
-        selectInput.value = selectOption.getAttribute('am-select-option');
-        selectValue.setAttribute('am-select-value', selectOption.getAttribute('am-select-option'))
-        selectValue.innerText = selectOption.innerText;
+    //     selectInput.value = selectOption.getAttribute('am-select-option');
+    //     selectValue.setAttribute('am-select-value', selectOption.getAttribute('am-select-option'))
+    //     selectValue.innerText = selectOption.innerText;
 
-        this.bubbleDestroy(e, select, true);
-    }
+    //     this.bubbleDestroy(e, select, true);
+    // }
 }
 
 export default Select
