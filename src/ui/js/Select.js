@@ -85,7 +85,7 @@ class Select extends EventEmitter{
         this.$options = this.$select.querySelector('[am-select-options]');
         this.$select.setAttribute('init', 'true')
 
-        const options = this.$options.querySelectorAll('[am-select-option]')
+        let options = this.$options.querySelectorAll('[am-select-option]')
 
         // Если есть передали options, добавялем в Select
         if (this.state.options.length) {
@@ -96,25 +96,54 @@ class Select extends EventEmitter{
             })
         }
 
+        // Если нет опций в стейте и в шаблоне, то добавляем placeholderOption
+        if (!this.state.options.length && !options.length) {
+           if (this.state.placeholderOption) {
+                this.$options.appendChild(element.createTemplate(`
+                    <div am-select-option="default" tab-index="0" default>${this.state.placeholderOption}</div>
+                `))
+           } else {
+            this.$options.appendChild(element.createTemplate(`
+                <div am-select-option="default" tab-index="0" default>Нет значений</div>
+            `))
+           }
+        }
+
         // Если есть option в шаблоне, добавляем их в стейт
         if (options.length) {
             options.forEach(item => {
                 this.state.options.push({value: item.getAttribute('am-select-option'), label: item.textContent})
                 item.setAttribute('tabindex', 0)
             })
-        }
+        }        
 
         this.$option = this.$options.querySelectorAll('[am-select-option]')
 
+        // Навешиваем обработчики
         this.$option.forEach(option => {            
             option.addEventListener('click', (e)=> {
                 e.preventDefault();
 
-                if (!option.hasAttribute('selected')) {
+                if (!option.hasAttribute('selected') && !option.hasAttribute('default')) {
                     this.change(option)
                 }
             })
         })
+
+        // Если есть placeholder, подставляем в value, иначе первое значение
+        if (this.state.placeholder) {
+            this.change(element.createTemplate(`
+                <div am-select-option="default" tab-index="0" default>${this.state.placeholder}</div>
+            `), false)
+        } else {
+            if (this.$option.length) {
+                this.change(this.$option[0], false)
+            } else {
+                this.change(element.createTemplate(`
+                    <div am-select-option="default" tab-index="0" default>Нет значений</div>
+                `), false)
+            }
+        }
 
         this.$value.addEventListener('click', (e)=> {
             this.render()
@@ -167,7 +196,7 @@ class Select extends EventEmitter{
      * Изменяет option
      * @param {Object} option параметры option 
      */
-    change(option) {
+    change(option, emit = true) {
         this.$input.value = option.getAttribute('am-select-option');
         this.$value.setAttribute('am-select-value', option.getAttribute('am-select-option'))
         this.$value.innerText = option.innerText;
@@ -182,10 +211,17 @@ class Select extends EventEmitter{
             // eslint-disable-next-line eqeqeq
             return item.value == option.getAttribute('am-select-option');
         })
-
-        this.state.value = {value: this.state.value[0].value, label: this.state.value[0].label}
-
-        this.emit('change', this.state.value)
+        
+        // Если такого значение в стейте options нет, значит вставляем значение из элемента на который сработал обработчик
+        if (this.state.value.length) {
+            this.state.value = {value: this.state.value[0].value, label: this.state.value[0].label}
+        } else {
+            this.state.value = {value: option.getAttribute('am-select-option'), label: option.innerText}
+        }        
+        
+        if (emit) {
+            this.emit('change', this.state.value)
+        }
         this.destroy();
     }
 
@@ -208,7 +244,6 @@ class Select extends EventEmitter{
             this.state.controlCounter += 1
             options[this.state.controlCounter].focus()
         } else if(event.which == 13){
-            console.log(options[this.state.controlCounter]);
             options[this.state.controlCounter].click()
         }
     }
