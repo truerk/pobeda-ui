@@ -20,6 +20,7 @@ class Select extends EventEmitter{
             name: '',
             placeholder: '',
             placeholderOption: '',
+            placeholderSearch: 'Значений не найдено',
             selectTags: {},
             valueTags: {},
             optionsTags: {},
@@ -29,6 +30,8 @@ class Select extends EventEmitter{
             build: false,
 
             reverse: false,
+            search: false,
+            option: true,
 
             control: this.control.bind(this),
             controlCounter: -1,
@@ -70,6 +73,13 @@ class Select extends EventEmitter{
             if (!e.target.closest('[am-select]')) {
                 e.stopPropagation();
                 this.destroy(true);
+                
+                // Сброс поиска в value
+                document.querySelectorAll('[am-select-value]').forEach(item => {
+                    if (item.hasAttribute('data-value')) {
+                        item.innerText = item.dataset.value
+                    }
+                })
             }
         });
 
@@ -131,23 +141,34 @@ class Select extends EventEmitter{
         })
 
         // Если есть placeholder, подставляем в value, иначе первое значение
-        if (this.state.placeholder) {
-            this.change(element.createTemplate(`
-                <div am-select-option="default" tab-index="0" default>${this.state.placeholder}</div>
-            `), false)
-        } else {
-            if (this.$option.length) {
-                this.change(this.$option[0], false)
-            } else {
+        if (this.state.option) {
+            if (this.state.placeholder) {
                 this.change(element.createTemplate(`
-                    <div am-select-option="default" tab-index="0" default>Нет значений</div>
+                    <div am-select-option="default" tab-index="0" default>${this.state.placeholder}</div>
                 `), false)
+            } else {
+                if (this.$option.length) {
+                    this.change(this.$option[0], false)
+                } else {
+                    this.change(element.createTemplate(`
+                        <div am-select-option="default" tab-index="0" default>Нет значений</div>
+                    `), false)
+                }
             }
         }
 
         this.$value.addEventListener('click', (e)=> {
             this.render()
+            if (this.state.search) {
+                this.$value.focus()
+            }
         })
+
+        if (this.state.search) {
+            this.$value.setAttribute('data-value', this.$value.innerText)
+            
+            this.searchInit()
+        }
 
         this.initDocument()
     }
@@ -170,7 +191,7 @@ class Select extends EventEmitter{
             this.destroy(true);
             this.state.render = true
             this.controlInit(true);
-            this.$select.setAttribute('active', '');
+            this.$select.setAttribute('active', '');            
         }
     }
 
@@ -230,14 +251,15 @@ class Select extends EventEmitter{
      * @param {Event} e 
      */
     control(e) {
-        e.preventDefault();
         const options = this.$options.children;
 
         if(event.which == 38) {
+            e.preventDefault();
             if (!options[this.state.controlCounter - 1]) {return}
             this.state.controlCounter -= 1;
             options[this.state.controlCounter].focus()
         } else if (event.which == 40) {
+            e.preventDefault();
             if (!options[this.state.controlCounter + 1]) {
                 return
             }
@@ -257,6 +279,66 @@ class Select extends EventEmitter{
             document.addEventListener('keydown', this.state.control, false);
         } else {
             document.removeEventListener('keydown', this.state.control, false);
+        }
+    }
+
+    searchInit() {     
+        const searchHanlderClick = this._searchHanlderClick.bind(this)
+        const searchHanlderInput = this._searchHanlderInput.bind(this)
+        // const searchReset = this._searchReset.bind(this)
+
+        this.$value.addEventListener('input', searchHanlderInput)
+        // this.$value.addEventListener('blur', searchReset)
+        this.$value.addEventListener('click', searchHanlderClick)
+    }
+
+    _searchHanlderClick() {
+        this._searchReset()
+
+        if (!this.$select.hasAttribute('active')) {
+            this.$value.setAttribute('contenteditable', false)
+            this.$value.innerText = this.$value.getAttribute('data-value')
+        } else {
+            this.$value.setAttribute('contenteditable', true)
+            this.$value.innerHTML = '&nbsp'
+            this.$value.focus()
+        }  
+    }
+
+    _searchHanlderInput() {
+        const searchText = this.$value.innerText.trim().toLowerCase()
+        const optionEmpty = this.$options.querySelector('[am-select-option="empty"]')
+        let countSearch = 0;
+
+
+        this.$option.forEach(option => {
+            const optionText = option.innerText.trim().toLowerCase(); 
+
+            if (optionText.indexOf(searchText) === -1) {
+                option.setAttribute('hidden', '')
+            } else {
+                countSearch += 1; 
+                option.removeAttribute('hidden')          
+            } 
+        })
+
+        if (optionEmpty) {
+            optionEmpty.remove()
+        }
+
+        if (!countSearch) {
+            this.$options.appendChild( element.createTemplate(`
+                <div am-select-option="empty" tab-index="0" default>${this.state.placeholderSearch}</div>
+            `))
+        }
+    }
+
+    _searchReset() {
+        const optionEmpty = this.$options.querySelector('[am-select-option="empty"]')
+        this.$option.forEach(option => option.removeAttribute('hidden'))
+        
+        if (optionEmpty) {
+            optionEmpty.remove()
         }
     }
 }
