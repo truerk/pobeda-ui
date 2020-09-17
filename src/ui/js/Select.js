@@ -235,9 +235,11 @@ class Select extends EventEmitter{
         
         // Если такого значение в стейте options нет, значит вставляем значение из элемента на который сработал обработчик
         if (this.state.value.length) {
+            this.$value.setAttribute('data-value', this.state.value[0].label)
             this.state.value = {value: this.state.value[0].value, label: this.state.value[0].label}
         } else {
             this.state.value = {value: option.getAttribute('am-select-option'), label: option.innerText}
+            this.$value.setAttribute('data-value', option.innerText)
         }        
         
         if (emit) {
