@@ -1,3 +1,11 @@
+/*!
+ * Native Javascript utils.
+ * https://github.com/truerk/pobeda-ui
+ *
+ * Copyright 2020 Eryomin Nickolay
+ * Published under MIT License
+ */
+
 import object from './object'
 import element from './element'
 import event from './event'

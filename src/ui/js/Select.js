@@ -39,11 +39,13 @@ class Select extends EventEmitter{
 
 
         if (Array.isArray(element)) {
+            let array;
+
             if (element.length) {
-                element.forEach(sel => new Select(sel, props));
+                array = element.map(sel => new Select(sel, props));
             }
 
-            return false;
+            return array;
         }
 
         this.$select = null;

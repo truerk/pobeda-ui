@@ -1,4 +1,4 @@
-import { Tooltip, Modal, Progress, Select, Dropdown, Tabs, Accordion } from '@ui'
+import ui from '@ui'
 import utils from '@utils'
 import element from '@utils/element'
 import EventEmitter from '@utils/EventEmitter'

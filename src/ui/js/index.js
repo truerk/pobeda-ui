@@ -16,4 +16,4 @@ import Tabs from './Tabs.js'
 import Accordion from './Accordion.js'
 import '../utils/prototype'
 
-export { Tooltip, Modal, Progress, Select, Dropdown, Tabs, Accordion }
+export default { Tooltip, Modal, Progress, Select, Dropdown, Tabs, Accordion }

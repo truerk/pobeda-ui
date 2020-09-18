@@ -27,11 +27,13 @@ class Accordion extends EventEmitter {
 
         // Если пришел массив элементов, создаем для каждого отдельный экземпляр
         if (Array.isArray(element)) {
+            let array;
+
             if (element.length) {
-                element.map(acc => new Accordion(acc, props));
+                array = element.map(acc => new Accordion(acc, props));
             }
 
-            return false;
+            return array;
         }
 
         this.$accordion = document.querySelector(this.state.class)
