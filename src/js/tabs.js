@@ -1,4 +1,4 @@
-import ui from '@ui'
+import Tabs from '@ui/Tabs'
 import Swiper from 'swiper'
 
 const tab = new Tabs('[am-tabs="controller"]', {

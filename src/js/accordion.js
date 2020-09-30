@@ -1,4 +1,4 @@
-import ui from '@ui'
+import Accordion from '@ui/Accordion'
 
 const accordion = new Accordion('[am-accordion="simple"]', {
     init: false
