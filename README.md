@@ -7,12 +7,7 @@
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
 [license-url]: https://github.com/truerk/pobeda-ui/blob/master/LICENSE
 
-[size-image]: https://img.shields.io/bundlephobia/min/pobeda-ui?color=success&label=size
-[size-url]: https://www.npmjs.com/package/pobeda-ui
-
-# Pobeda-ui [![NPM version][npm-image]][npm-url] [![GitHub license][license-image]][license-url] [![NPM size][size-image]][size-url]
-
-[![][logo-image]][logo-url]
+# Pobeda-ui [![NPM version][npm-image]][npm-url] [![GitHub license][license-image]][license-url]
 
 Components for building an interface
 
