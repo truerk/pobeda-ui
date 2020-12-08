@@ -181,6 +181,7 @@ class Accordion extends EventEmitter {
     hide(tab, content) {
         try {
             content.setAttribute('hiding', '')
+            tab.removeAttribute('active')
 
             this._setHeight(0, content)
 
@@ -243,7 +244,6 @@ class Accordion extends EventEmitter {
         try {
             content.removeAttribute('show')
             content.removeAttribute('hiding')
-            tab.removeAttribute('active')
             // this.$panels.removeAttribute('active')
 
             this.emit('hode', tab, content)
