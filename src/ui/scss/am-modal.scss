@@ -4,16 +4,24 @@
     position: fixed;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     z-index: 999;
     top: 0;
     left: 0;
     bottom: 0;
+    /* width: 100%; */
+    /* height: 100%; */
     right: 0;
-    transition: all .2s ease-in-out;
+    transition: all .3s ease-in-out;
     visibility: hidden;
     pointer-events: none;
     opacity: 0;
+    overflow-y: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &[active] {
         opacity: 1;
@@ -36,43 +44,57 @@
 }
 
 [am-modal] {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -52%);
     padding: 30px;
     background: #fff;
-    max-width: calc(100% - 20px);
+    max-width: calc(100% - 35px);
     transition: all .3s ease-in-out;
     border-radius: 3px;
-    margin-top: -5px;
-    height: 100%;
-    max-height: 500px;
+    margin: auto;
+    position: relative;
 
     &[active] {
-        margin-top: 0;
+        // margin-top: 0;
 
-        @media (max-width: $sm) {
-            &[adaptive] {
-                bottom: 0;  
-                max-height: 100%;
-            }   
+        @media (min-width: $sm + 1) {
+            &:not([closing]) {
+                top: 0px;
+            }
         }
-    }
-
-    &[closing] {
-        margin-top: -10px;
 
         @media (max-width: $sm) {
             &[adaptive] {
-                bottom: -10px;
+                margin-bottom: -20px;
+            }
+            &:not([adaptive]):not([closing]) {
+                top: 0px;
             }
         }
     }
 
-    [am-modal-content] {        
-        overflow-y: auto;
-        max-height: 100%;
+    @media (min-width: $sm + 1) {
+        & {
+            top: 10px;
+        }
+    }
+
+    @media (max-width: $sm ) {
+        &:not([adaptive]) {
+            top: 10px;
+        }
+    }
+
+    &[closing] {
+        // margin-top: -10px;
+
+        @media (max-width: $sm) {
+            &[adaptive] {
+                margin-bottom: -30px;
+            }
+        }
+    }
+
+    [am-modal-content] {
+        max-width: 600px;
     }
 
     @media (max-width: $sm) {
@@ -80,10 +102,13 @@
             width: 100%;
             max-width: 100%;
             border-radius: 0;
-            top: auto;
-            bottom: -10px;
-            transform: translate(-50%, 0);
-        }  
+            margin-bottom: -30px;
+            overflow: hidden;
+            // top: auto;
+            // bottom: -10px;
+            // transform: translate(-50%, 0);
+
+        }
     }
 
     &:not([mobile])[adaptive] {

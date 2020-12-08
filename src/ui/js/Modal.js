@@ -17,7 +17,6 @@ class Modal {
         }
 
         this.transitionEnd = utils.event.transitionEnd()
-        this.animationEnd = utils.event.animationEnd()
 
         this.state = {
             wrapper: document.querySelector('body'),
@@ -52,7 +51,7 @@ class Modal {
      * Инициализация Modal
      */
     init() {
-        if (this.state.modal) {
+        if (this.state.modal && !this.state.modal.hasAttribute('build')) {
             const overlay = this.state.modal.closest('[am-modal-overlay]');
             const modal = this.state.modal;
             const modalClose = this.state.modal.querySelector('[am-modal-close]');
@@ -144,7 +143,7 @@ class Modal {
             return;
         }
 
-        this.state.modal.addEventListener(this.transitionEnd, () => {
+        this.state.overlay.addEventListener(this.transitionEnd, () => {
             this.state.overlay.removeAttribute('closing');
             this.state.modal.removeAttribute('closing');
 
