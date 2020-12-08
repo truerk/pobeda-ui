@@ -1,8 +1,20 @@
 import utils from '@utils'
 
 class Modal {
-    constructor(props) {
-        this.props = props
+    constructor(props = {}) {
+        if (Array.isArray(props.modal) || props.modal instanceof NodeList) {
+            let array = Array.from(props.modal);
+            let newProps = props;
+
+            if (array.length) {
+                array = array.map(el => {
+                    newProps.modal = el;
+                    return new Modal(newProps);
+                });
+            }
+
+            return array;
+        }
 
         this.transitionEnd = utils.event.transitionEnd()
         this.animationEnd = utils.event.animationEnd()
@@ -27,7 +39,7 @@ class Modal {
             onDestroy: () => {}
         }
 
-        this.state = utils.object.extend(this.state, this.props)
+        this.state = utils.object.extend(this.state, props)
 
         if (this.state.modal) {
             this.init()
@@ -197,53 +209,24 @@ class Modal {
 
     /**
      * Инициализация для шаблонных Modal
+     * @param {Object} props
      */
-    static bubbleInit() {
-        document.addEventListener('click', (e) => {
-            if (e.target.hasAttribute('am-modal-target')) {
-                this.bubbleRender(e)
+    static bubbleInit(props = {}, callback = () => {}) {
+        props.modal = document.querySelectorAll('[am-modal][data-bubble]');
+        const modals = new Modal(props || {})
+
+        modals.forEach(modal => {
+            const target = modal.state.modal.getAttribute('am-modal')
+            const buttonTarget = document.querySelector(`[am-modal-target="${target}"]`)
+
+            if (buttonTarget) {
+                buttonTarget.addEventListener('click', e => modal.render())
             }
 
-            if (e.target.hasAttribute('am-modal-close') || e.target.hasAttribute('am-modal-overlay')) {
-                this.bubbleDestroy(e)
-            }
+            callback(modal)
         });
-    }
 
-    /**
-     * Открытие шаблонных Modal
-     */
-    static bubbleRender(e) {
-        const buttonTarget = e.target;
-        const modalTarget = buttonTarget.getAttribute('am-modal-target');
-        const modal = document.querySelector(`[am-modal=${modalTarget}]`);
-
-        if (!modal || modal.hasAttribute('build')) { return }
-
-        const overlay = modal.closest('[am-modal-overlay]');
-
-        overlay.setAttribute('active', '');
-        modal.setAttribute('active', '');
-    }
-
-    /**
-     * Закрытие шаблонных Modal
-     */
-    static bubbleDestroy(e) {
-        const overlay = e.target.closest('[am-modal-overlay]');
-        const modal = overlay.querySelector('[am-modal]');
-
-        if (modal.hasAttribute('build')) { return }
-
-        overlay.setAttribute('closing', '');
-        modal.setAttribute('closing', '');
-
-        modal.addEventListener(utils.event.transitionEnd(), function (e) {
-            modal.removeAttribute('active');
-            modal.removeAttribute('closing');
-            overlay.removeAttribute('active');
-            overlay.removeAttribute('closing');
-        }, {once: true});
+        return modals;
     }
 }
 

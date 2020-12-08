@@ -43,7 +43,7 @@ class Collapse extends EventEmitter {
     }
 
     init() {
-        if (this.initialized) return;
+        if (this.initialized || this.$element.hasAttribute('init')) return;
 
         this.$wrapper.style.setProperty('max-height', `${this.state.height}px`)
         this.$wrapper.style.setProperty('transition', `all ease-in-out ${this.state.duration}ms`)
@@ -52,6 +52,7 @@ class Collapse extends EventEmitter {
         window.addEventListener('resize', e => this.resize())
 
         this.initialized = true;
+        this.$element.setAttribute('init', '')
 
         this.emit('init', {
             element: this.$element,
@@ -103,7 +104,7 @@ class Collapse extends EventEmitter {
     }
 
     static bubbleInit(props = {}) {
-        const collapses = new Collapse(document.querySelectorAll('[am-collapse][data-init]'), props)
+        const collapses = new Collapse(document.querySelectorAll('[am-collapse][data-bubble]'), props)
 
         return collapses;
     }
