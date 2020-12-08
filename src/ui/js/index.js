@@ -14,6 +14,7 @@ import Modal from './Modal.js'
 import Progress from './Progress.js'
 import Tabs from './Tabs.js'
 import Accordion from './Accordion.js'
+import Collapse from './Collapse.js'
 import '../utils/prototype'
 
-export default { Tooltip, Modal, Progress, Select, Dropdown, Tabs, Accordion }
+export default { Tooltip, Modal, Progress, Select, Dropdown, Tabs, Accordion, Collapse }
