@@ -5,10 +5,14 @@ class Collapse extends EventEmitter {
     constructor(selector, props = {}) {
         super()
 
-        this.state = {
-            height: 0,
-            duration: 300,
-            init: true
+        if (Array.isArray(selector) || selector instanceof NodeList) {
+            let array = Array.from(selector);
+
+            if (array.length) {
+                array = array.map(el => new Collapse(el, props));
+            }
+
+            return array;
         }
 
         this.selectors = {
@@ -17,19 +21,15 @@ class Collapse extends EventEmitter {
             button: '[am-collapse-button]'
         };
 
-        if (Array.isArray(selector)) {
-            let array;
-
-            if (selector.length) {
-                array = selector.map(el => new Collapse(el, props));
-            }
-
-            return array;
-        }
-
         this.$element = selector instanceof HTMLElement ? selector : document.querySelector(selector);
         this.$wrapper = this.$element.querySelector(this.selectors.wrapper);
         this.$button = this.$element.querySelector(this.selectors.button);
+
+        this.state = {
+            height: Number(this.$wrapper.getAttribute('data-height')) || 0,
+            duration: Number(this.$wrapper.getAttribute('data-duration')) || 300,
+            init: true
+        }
 
         this.isActive = false;
         this.state = utils.object.extend(this.state, props);
@@ -45,10 +45,13 @@ class Collapse extends EventEmitter {
     init() {
         if (this.initialized) return;
 
-        this.$wrapper.setAttribute('style', `max-height: ${this.state.height}px`)
+        this.$wrapper.style.setProperty('max-height', `${this.state.height}px`)
+        this.$wrapper.style.setProperty('transition', `all ease-in-out ${this.state.duration}ms`)
 
         this.$button.addEventListener('click', e => this.toggle())
         window.addEventListener('resize', e => this.resize())
+
+        this.initialized = true;
 
         this.emit('init', {
             element: this.$element,
@@ -75,7 +78,7 @@ class Collapse extends EventEmitter {
         this.$button.setAttribute('active', '')
         this.$element.setAttribute('active', '')
         this.$wrapper.setAttribute('active', '')
-        this.$wrapper.setAttribute('style', `max-height: ${this.scrollHeight}px`)
+        this.$wrapper.style.setProperty('max-height', `${this.scrollHeight}px`)
 
         this.isActive = true;
     }
@@ -84,7 +87,7 @@ class Collapse extends EventEmitter {
         this.$button.removeAttribute('active')
         this.$element.removeAttribute('active')
         this.$wrapper.removeAttribute('active')
-        this.$wrapper.setAttribute('style', `max-height: ${this.state.height}px`)
+        this.$wrapper.style.setProperty('max-height', `${this.state.height}px`)
 
         this.isActive = false;
     }
@@ -93,14 +96,16 @@ class Collapse extends EventEmitter {
         this.scrollHeight = this.$wrapper.scrollHeight;
 
         if (this.isActive) {
-            this.$wrapper.setAttribute('style', `max-height: ${this.scrollHeight}px`)
+            this.$wrapper.style.setProperty('max-height', `${this.scrollHeight}px`)
         } else {
-            this.$wrapper.setAttribute('style', `max-height: ${this.state.height}px`)
+            this.$wrapper.style.setProperty('max-height', `${this.state.height}px`)
         }
     }
 
-    static bubbleInit() {
+    static bubbleInit(props = {}) {
+        const collapses = new Collapse(document.querySelectorAll('[am-collapse][data-init]'), props)
 
+        return collapses;
     }
 }
 

@@ -118,7 +118,7 @@ class Modal {
 
     /**
      * Закрывает Modal
-     * @param {Event} e window.event 
+     * @param {Event} e window.event
      * @param {Boolean} destroy передать true, если необходимо закрыть окно в коде
      */
     destroy(e, destroy = false) {
@@ -145,7 +145,7 @@ class Modal {
 
         this.state.overlay.setAttribute('closing', '');
         this.state.modal.setAttribute('closing', '');
-        this.state.render = false;           
+        this.state.render = false;
         document.querySelector('body').style.removeProperty('overflow')
 
         if (this.state.options.mobile) {

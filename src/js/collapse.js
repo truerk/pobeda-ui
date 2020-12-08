@@ -6,8 +6,7 @@ collapse = new Collapse([
     '[am-collapse="1"]',
     '[am-collapse="2"]'
 ], {
-    init: false,
-    height: 15
+    init: false
 })
 
 collapse[0].on('init', (data) => {
@@ -20,3 +19,5 @@ collapse[1].on('toggle', (data) => {
 
 collapse[0].init()
 collapse[1].init()
+
+collapse = Collapse.bubbleInit()
