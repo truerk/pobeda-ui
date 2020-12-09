@@ -216,10 +216,12 @@ class Modal {
 
         modals.forEach(modal => {
             const target = modal.state.modal.getAttribute('am-modal')
-            const buttonTarget = document.querySelector(`[am-modal-target="${target}"]`)
+            const buttonTargets = document.querySelectorAll(`[am-modal-target="${target}"]`)
 
-            if (buttonTarget) {
-                buttonTarget.addEventListener('click', e => modal.render())
+            if (buttonTargets.length) {
+                buttonTargets.forEach(buttonTarget => {
+                    buttonTarget.addEventListener('click', e => modal.render())
+                })
             }
 
             callback(modal)
