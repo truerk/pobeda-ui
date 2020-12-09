@@ -70,6 +70,7 @@ class Modal {
             this.state.overlay = overlay
             this.state.modalClose = modalClose
             this.state.build = true
+            this.state.options.modalName = modal.getAttribute('am-modal')
 
             this.state.overlay.addEventListener('click', this.destroy.bind(this))
             this.state.modalClose.addEventListener('click', this.destroy.bind(this))
@@ -130,13 +131,17 @@ class Modal {
     /**
      * Закрывает Modal
      * @param {Event} e window.event
-     * @param {Boolean} destroy передать true, если необходимо закрыть окно в коде
+     * @param {Boolean} unMount передать true, если необходимо закрыть модалку
      */
-    destroy(e, destroy = false) {
-        e.stopPropagation();
+    destroy(e = false, unMount = false) {
+        if (!unMount) {
+            e.stopPropagation();
+        }
 
-        if (!(e.target.hasAttribute('am-modal-close') || e.target.closest('[am-modal-close]') || e.target.hasAttribute('am-modal-overlay')) && !destroy) {
-            return
+        if (!unMount) {
+            if (!(e.target.hasAttribute('am-modal-close') || e.target.closest('[am-modal-close]') || e.target.hasAttribute('am-modal-overlay'))) {
+                return
+            }
         }
 
         if (!this.state.render) {
@@ -209,6 +214,8 @@ class Modal {
     /**
      * Инициализация для шаблонных Modal
      * @param {Object} props
+     *
+     * @return {Array} modals
      */
     static bubbleInit(props = {}, callback = () => {}) {
         props.modal = document.querySelectorAll('[am-modal][data-bubble]');
@@ -228,6 +235,17 @@ class Modal {
         });
 
         return modals;
+    }
+
+    /**
+     * фильтрует массив модалок по названию
+     * @param {Array} arrayModal
+     * @param {String} modalName
+     *
+     * @return {Modal}
+     */
+    static getModalByName(arrayModal, modalName) {
+        return arrayModal.filter(modal => modal.state.options.modalName === modalName)[0]
     }
 }
 
