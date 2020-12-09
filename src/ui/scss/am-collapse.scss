@@ -23,7 +23,7 @@
     [am-collapse-button] {
         cursor: pointer;
         color: $color-main;
-        // display: none;
+        display: none;
 
         // &::after {
         //     content: '';
@@ -35,7 +35,11 @@
 
         &[active] {
             // display: block;
-            margin-top: 3px;
+            // margin-top: 3px;
+        }
+
+        &[init] {
+            display: block;
         }
     }
 

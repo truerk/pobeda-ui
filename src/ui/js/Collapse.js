@@ -54,6 +54,8 @@ class Collapse extends EventEmitter {
         this.initialized = true;
         this.$element.setAttribute('init', '')
 
+        this.initButtonByHeight()
+
         this.emit('init', {
             element: this.$element,
             wrapper: this.$wrapper,
@@ -100,6 +102,16 @@ class Collapse extends EventEmitter {
             this.$wrapper.style.setProperty('max-height', `${this.scrollHeight}px`)
         } else {
             this.$wrapper.style.setProperty('max-height', `${this.state.height}px`)
+        }
+
+        this.initButtonByHeight()
+    }
+
+    initButtonByHeight() {
+        if (this.scrollHeight < this.state.height) {
+            this.$button.removeAttribute('init')
+        } else {
+            this.$button.setAttribute('init', '')
         }
     }
 
