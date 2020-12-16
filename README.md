@@ -11,6 +11,11 @@
 
 Components for building an interface
 
+
+## Documentation
+
+See [here](https://truerk.github.io/pobeda-ui/) (v0.7)
+
 ## Installation and usage
 
 ### npm
