@@ -96,7 +96,7 @@ class Modal {
         const overlay = utils.element.create('div', {
             'am-modal-overlay': this.state.options.modalName,
             [this.state.options.mobile ? 'mobile' : '']: '',
-        }, [modal]);
+        }, []);
 
         this.state.modal = modal
         this.state.overlay = overlay
@@ -117,7 +117,9 @@ class Modal {
             document.querySelector('body').style.setProperty('overflow', 'hidden')
         }
 
-        this.state.wrapper.insertBefore(this.state.overlay, this.state.wrapper.children[0]);
+        // this.state.wrapper.insertBefore(this.state.overlay, this.state.wrapper.children[0]);
+        this.state.wrapper.appendChild(this.state.overlay)
+        this.state.wrapper.appendChild(this.state.modal)
 
         this.state.onRender()
         this.state.render = true;
@@ -156,6 +158,7 @@ class Modal {
             this.state.modal.removeAttribute('active');
 
             this.state.overlay.remove();
+            this.state.modal.remove();
             this.state.onDestroy();
         }, {once: true});
 
