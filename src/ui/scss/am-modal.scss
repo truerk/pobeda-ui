@@ -51,7 +51,7 @@
     margin: auto;
     z-index: 1000;
     transform: translate(-50%, -50%);
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     opacity: 0;
@@ -104,6 +104,7 @@
 
     [am-modal-content] {
         overflow-y: auto;
+        width: 100%;
     }
 
     @media (max-width: $sm) {
