@@ -118,14 +118,18 @@ class Modal {
         }
 
         // this.state.wrapper.insertBefore(this.state.overlay, this.state.wrapper.children[0]);
-        this.state.wrapper.appendChild(this.state.overlay)
+        if (this.state.overlay) {
+            this.state.wrapper.appendChild(this.state.overlay)
+        }
         this.state.wrapper.appendChild(this.state.modal)
 
         this.state.onRender()
         this.state.render = true;
 
         setTimeout(() => {
-            this.state.overlay.setAttribute('active', '');
+            if (this.state.overlay) {
+                this.state.overlay.setAttribute('active', '');
+            }
             this.state.modal.setAttribute('active', '');
         }, 10);
     }
